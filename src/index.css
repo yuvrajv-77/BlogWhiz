@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Forum&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Questrial&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.font-brand{
+  font-family: "Montserrat", serif;
+}
+.font-blog{
+  font-family: 'Questrial', serif;
+}
+.font-logo{
+  font-family: 'Forum', serif;
+}
+
+.ql-toolbar{
+  /* border-radius: none; */
+  /* background-color: black; */
+  
+}
+
+.ql-editor{
+  font-family: 'Forum', serif;
+  font-size: 1rem;
+  overflow: hidden;
+}
