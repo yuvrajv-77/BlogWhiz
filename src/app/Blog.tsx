@@ -7,9 +7,9 @@ import { parse } from 'node-html-parser';
 const Blog = () => {
 
     const { id } = useParams<{ id: string }>();
-    // const data = blogData.find((item) => item.id === Number(id));
 
     const [blog, setBlog] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     // this method returns the whole promise
     // useEffect(() => {
@@ -26,9 +26,12 @@ const Blog = () => {
 
     useEffect(() => {
         const fetchBlog = async () => {
+            setLoading(true);
             const data = await getBlogById(id as string);
             setBlog(data);
+            setLoading(false);
         };
+
         fetchBlog();
     }, [id]);
 
@@ -41,6 +44,28 @@ const Blog = () => {
         const year = date.getFullYear().toString();
         return `${month} ${day}, ${year}`;
     };
+
+    if (loading) {
+        return (
+            <div className='px-7 lg:px-0 md:px-10 lg:max-w-[50rem] mt-7 mx-auto animate-pulse'>
+                <div className='bg-gray-100  w-full h-10 rounded-xl'></div>
+                <div className='bg-gray-100  w-full h-3 mt-6 rounded-md'></div>
+                <div className='bg-gray-100  w-2/3 h-3 mt-6 rounded-md'></div>
+                <div className='flex items-center gap-2 mt-10 '>
+                    <span className='bg-gray-100 size-14 rounded-full '></span>
+                    <span className='bg-gray-100 h-2 rounded-full w-1/4  '></span>
+                </div>
+                <div className='bg-gray-50 p-10 w-full space-y-6 h-[550px] mt-6 rounded-md'>
+                    <div className='bg-gray-100  w-full h-3 rounded-lg'></div>
+                    <div className='bg-gray-100  w-full h-3 rounded-lg'></div>
+                    <div className='bg-gray-100  w-full h-3 rounded-lg'></div>
+                    <div className='bg-gray-100  w-full h-3 rounded-lg'></div>
+                    <div className='bg-gray-100  w-full h-3 rounded-lg'></div>
+                    <div className='bg-gray-100  w-full h-40 rounded-lg'></div>
+                </div>
+            </div>
+        )
+    }
 
     return (
         <div className='px-7 lg:px-0 md:px-10 lg:max-w-[50rem] mt-7 mx-auto '>
@@ -58,7 +83,7 @@ const Blog = () => {
             {/* <div className='mt-10 w-full hidden md:block'>
                 <img src={data?.blogImg} className='h-[30rem] w-full object-cover' alt="" />
             </div> */}
-            
+
             <div className='mt-12 md:mt-10 border-t-2 py-6 '>
                 <p className=' [&_h1]:text-3xl [&_h1]:font-bold [&_h1]:mb-3 [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:mb-2" [&_p]:md:text-xl [&_p]:text-normal tracking-wide leading-7 md:leading-9 [&_img]:mx-auto [&_img]:my-4  md:tracking-wider font-logo antialiased md:font-semibold md:text-justify text-slate-600 '>
                     {renderContent()}

@@ -7,6 +7,7 @@ import { Link } from 'react-router';
 import { useEffect, useState } from 'react';
 import { getUserBlogsFromFirestore } from '../../services/blogServices';
 import useAuth from '../../hooks/useAuth';
+import Skeleton from '../../components/Skeleton';
 
 const Dashboard = () => {
 
@@ -14,25 +15,28 @@ const Dashboard = () => {
   const { user } = useAuth()
 
   const [blogs, setBlogs] = useState([]);
-    
+  const [loading, setLoading] = useState(true);
+
   const handleBlogDelete = (blogId: string) => {
     setBlogs(prevBlogs => prevBlogs.filter(blog => blog.id !== blogId));
   };
 
   useEffect(() => {
     const fetchBlogs = async () => {
-      const data = await getUserBlogsFromFirestore(user?.uid as string);     
+      setLoading(true);
+      const data = await getUserBlogsFromFirestore(user?.uid as string);
       if (data !== undefined) {
         setBlogs(data);
       }
+      setLoading(false);
     };
     fetchBlogs();
   }, []);
 
-console.log(blogs);
+  console.log(blogs);
 
-  
-  
+
+
   return (
     <div className='px-5 lg:px-0 md:px-4 lg:max-w-[55rem] mx-auto '>
 
@@ -50,13 +54,17 @@ console.log(blogs);
         </div>
 
         <div className='border-b-2'></div>
+        {
+          loading ? (
+            <Skeleton/>
+          ) :
+            <div>
+              {blogs.map((blog, index) => (
+                <Singleblog blog={blog} key={index} onDelete={handleBlogDelete} />
+              ))}
 
-        <div>
-          {blogs.map((blog, index) => (
-            <Singleblog blog={blog} key={index} onDelete={handleBlogDelete} />
-          ))}
-       
-        </div>
+            </div>
+        }
       </div>
 
       <div>

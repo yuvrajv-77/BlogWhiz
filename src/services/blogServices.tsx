@@ -1,4 +1,4 @@
-import { collection, addDoc, getDocs, query, where, doc, getDoc, deleteDoc } from 'firebase/firestore';
+import { collection, addDoc, getDocs, query, where, doc, getDoc, deleteDoc, updateDoc, arrayRemove, arrayUnion } from 'firebase/firestore';
 import { db } from '../config/firebaseConfig';
 
 type BlogData = {
@@ -44,7 +44,6 @@ export const addBlogToFirestore = async (blogData: BlogData) => {
 };
 
 export const getUserBlogsFromFirestore = async (userId:string) => {
-
   try {
     const blogCollectionRef = collection(db, 'blogs');
     const userBlogsQuery = query(blogCollectionRef, where("userId", "==", userId));
@@ -84,3 +83,18 @@ export const deleteBlogFromFirestore = async (blogId: string) => {
     console.error('Error deleting blog: ', e);
   }
 };
+
+export const toggleLike = async (blogId: string, userId: string) => {
+  const blogRef = doc(db, 'blogs', blogId);
+  const blog = await getBlogById(blogId);
+  
+  if (blog.likes.includes(userId)) {
+    await updateDoc(blogRef, {
+      likes: arrayRemove(userId)
+    });
+  } else {
+    await updateDoc(blogRef, {
+      likes: arrayUnion(userId)
+    });
+  }
+}

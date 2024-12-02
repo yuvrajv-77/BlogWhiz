@@ -1,12 +1,12 @@
 export interface Blog {
-    id: number;
-    blogImg: string | null;
-    title: string;
-    subject: string;
-    body: string;
-    authorImg: string | null;
-    authorName: string;
-    date: string;
-  }
+  id: string;
+  title: string;
+  summary: string;
+  body: string;
+  userId: string;
+  createdAt: string;
+  authorName: string;
 
-  
+  likes: string[]; // Array of userIds who liked the post
+  // comments: Comment[];
+}
