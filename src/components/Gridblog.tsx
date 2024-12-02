@@ -2,17 +2,11 @@
 import { Link } from 'react-router';
 // import { Blog } from '../Blog.types'
 import useAuth from '../hooks/useAuth';
+import { GoHeart } from 'react-icons/go';
+import { BiMessageSquareDetail } from 'react-icons/bi';
+import { Blog } from '../services/Blog.types';
 
-type Blog = {
-    // blogImg: string | null;
-    id: string
-    title: string;
-    summary: string;
-    body: string;
-    userId: string;
-    createdAt: Date;
-    authorName: string;
-}
+
 
 const Gridblog = ({ blog }: { blog: Blog }) => {
 
@@ -39,12 +33,31 @@ const Gridblog = ({ blog }: { blog: Blog }) => {
                 <div className='flex  flex-col justify-between gap-4 md:gap-3 '>
                     <h1 className='text-lg md:text-2xl lg:text-2xl leading-tight md:leading-none font-brand font-bold group-hover:underline'>{blog?.title}</h1>
                     <h3 className='text-sm md:text-base text-gray-500 line-clamp-2 font-blog  leading-tight '>{blog?.summary}</h3>
-                    <div className='flex items-center gap-4 w-full'>
-                        <img src={'/avatar.jpg'} className={`size-6 md:size-10 object-cover rounded-full cursor-pointer`} alt="" />
-                        <span className='flex justify-between flex-col gap-1'>
-                            <p className='text-xs'>{blog?.authorName}</p>
-                            <p className='text-xs'>{formatDate(blog?.createdAt)}</p>
-                        </span>
+                    <div className='flex items-center justify-between mt-2 w-full '>
+
+
+                        <div className='flex items-center gap-4'>
+                            <img src='/avatar.jpg' className={`size-6 md:size-10 object-cover rounded-full cursor-pointer`} alt="" />
+                            <span className='flex justify-between flex-col gap-1'>
+                                <p className='text-xs'>{blog?.authorName}</p>
+                                <p className='text-xs text-gray-500'>{formatDate(blog?.createdAt)}</p>
+                            </span>
+                        </div>
+                        <div className='flex items-center gap-4'>
+                            <span className='flex items-center gap-2 cursor-pointer'  >
+                                <GoHeart size={24} color='gray' />
+                                <p className='text-sm font-blog'>{blog?.likes.length}</p>
+                            </span>
+                            <span className='flex items-center gap-2'>
+                                {
+
+                                    <BiMessageSquareDetail size={24} color='gray' />
+                                }
+                                <p className='text-sm font-blog'>35</p>
+                            </span>
+                            
+                        </div>
+
                     </div>
                 </div>
             </div>

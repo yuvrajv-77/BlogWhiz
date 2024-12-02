@@ -5,19 +5,13 @@ import useAuth from '../hooks/useAuth';
 import { LuTrash2 } from 'react-icons/lu';
 import { useEffect, useState } from 'react';
 import { deleteBlogFromFirestore } from '../services/blogServices';
+import { GoHeart } from 'react-icons/go';
+import { BiMessageSquareDetail } from 'react-icons/bi';
+import { Blog } from '../services/Blog.types';
 
-type Blog = {
-    // blogImg: string | null;
-    id: string
-    title: string;
-    summary: string;
-    body: string;
-    userId: string;
-    createdAt: Date;
-    authorName: string;
-}
 
-const Singleblog = ({ blog, onDelete }: { blog: Blog; onDelete?:(blogId:string)=> void }) => {
+
+const Singleblog = ({ blog, onDelete }: { blog: Blog; onDelete?: (blogId: string) => void }) => {
     const { user, userDetail } = useAuth()
     const [isAuthor, setIsAuthor] = useState(false);
 
@@ -31,13 +25,13 @@ const Singleblog = ({ blog, onDelete }: { blog: Blog; onDelete?:(blogId:string)=
         return `${month} ${day}, ${year}`;
     };
 
-    useEffect(() => {       
+    useEffect(() => {
         if (blog?.userId == user?.uid) {
             setIsAuthor(true);
-        }else{
+        } else {
             setIsAuthor(false);
         }
-    },[])
+    }, [])
 
     const handleDeleteClick = (event: React.MouseEvent<HTMLSpanElement>) => {
         event.preventDefault();
@@ -53,7 +47,10 @@ const Singleblog = ({ blog, onDelete }: { blog: Blog; onDelete?:(blogId:string)=
                 <div className='flex  flex-col  gap-3 w-full '>
                     <h1 className='text-lg md:text-2xl lg:text-2xl leading-5 font-bold font-brand group-hover:underline'>{blog?.title}</h1>
                     <h3 className='text-sm md:text-lg text-gray-500 line-clamp-2 font-blog font-normal leading-tight md:leading-none'>{blog?.summary}</h3>
+
                     <div className='flex items-center justify-between mt-2 w-full '>
+
+
                         <div className='flex items-center gap-4'>
                             <img src='/avatar.jpg' className={`size-6 md:size-10 object-cover rounded-full cursor-pointer`} alt="" />
                             <span className='flex justify-between flex-col gap-1'>
@@ -61,8 +58,22 @@ const Singleblog = ({ blog, onDelete }: { blog: Blog; onDelete?:(blogId:string)=
                                 <p className='text-xs text-gray-500'>{formatDate(blog?.createdAt)}</p>
                             </span>
                         </div>
-                        {isAuthor && <span className='text-xs p-2 rounded-full hover:bg-gray-200 text-gray-500'
-                        onClick={handleDeleteClick}><LuTrash2 size={20}/></span>}
+                        <div className='flex items-center gap-4'>
+                            <span className='flex items-center gap-2 cursor-pointer'  >
+                                <GoHeart size={24} color='gray' />
+                                <p className='text-sm font-blog'>{blog?.likes.length}</p>
+                            </span>
+                            <span className='flex items-center gap-2'>
+                                {
+
+                                    <BiMessageSquareDetail size={24} color='gray' />
+                                }
+                                <p className='text-sm font-blog'>35</p>
+                            </span>
+                            {isAuthor && <span className='text-xs p-2 rounded-full hover:bg-gray-200 text-gray-500'
+                                onClick={handleDeleteClick}><LuTrash2 size={20} /></span>}
+                        </div>
+
                     </div>
                 </div>
             </div>

@@ -10,3 +10,12 @@ export interface Blog {
   likes: string[]; // Array of userIds who liked the post
   // comments: Comment[];
 }
+
+
+// export interface Comment {
+//   id: string;
+//   userId: string;
+//   userName: string;
+//   content: string;
+//   createdAt: string;
+// }

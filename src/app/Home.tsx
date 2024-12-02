@@ -5,10 +5,11 @@ import { blogData } from '../components/blogdata'
 import { Link } from 'react-router'
 import { useEffect, useState } from 'react'
 import { getBlogsFromFirestore } from '../services/blogServices'
+import { Blog } from '../services/Blog.types'
 
 const Home = () => {
 
-  const [blogs, setBlogs] = useState([]);
+  const [blogs, setBlogs] = useState<Blog[]>([]);
   const [loading, setLoading] = useState(true);
 
   const formatDate = (dateString: string) => {
