@@ -11,10 +11,10 @@ const Blog = () => {
 
     const { id } = useParams<{ id: string }>();
     const { user, userDetail } = useAuth();
-    const [blog, setBlog] = useState(null);
+    const [blog, setBlog] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const [isLiked, setIsLiked] = useState(false);
-
+    
 
     // this method returns the whole promise
     // useEffect(() => {
@@ -57,12 +57,12 @@ const Blog = () => {
         setIsLiked(!isLiked);
 
         // Update blog state immediately
-        setBlog(prev => {
+        setBlog((prev: any) => {
             if (!prev) return prev; // Ensure prev is not null or undefined
     
             const isAlreadyLiked = prev.likes.includes(user.uid);
             const updatedLikes = isAlreadyLiked
-                ? prev.likes.filter(id => id !== user.uid) // Remove like
+                ? prev.likes.filter((id: string) => id !== user.uid) // Remove like
                 : [...prev.likes, user.uid]; // Add like
     
             return {
@@ -74,12 +74,7 @@ const Blog = () => {
         
     };
 
-    console.log('likes: ', blog?.likes);
-
-
-
-
-    // console.log('Blog: ', blog);
+    
 
     const formatDate = (dateString: string) => {
         const date = new Date(dateString);
@@ -133,10 +128,8 @@ const Blog = () => {
                             }
                             <p className='text-sm text-gray-600 font-blog'>{blog?.likes.length}</p>
                         </span>
-
                     </div>
                 </div>
-
             </div>
             {/* <div className='mt-10 w-full hidden md:block'>
                 <img src={data?.blogImg} className='h-[30rem] w-full object-cover' alt="" />
@@ -150,5 +143,4 @@ const Blog = () => {
         </div>
     )
 }
-
 export default Blog;

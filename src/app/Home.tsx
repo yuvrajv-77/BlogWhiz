@@ -24,6 +24,8 @@ const Home = () => {
       setLoading(true);
       const data = await getBlogsFromFirestore();
       if (data !== undefined) {
+        console.log(data);
+        
         setBlogs(data);
       }
       setLoading(false);

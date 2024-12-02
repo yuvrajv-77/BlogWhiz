@@ -15,8 +15,6 @@ const Singleblog = ({ blog, onDelete }: { blog: Blog; onDelete?: (blogId: string
     const { user, userDetail } = useAuth()
     const [isAuthor, setIsAuthor] = useState(false);
 
-    const name = user?.displayName || userDetail?.displayName || "A Reader or Author";
-
     const formatDate = (dateString: string) => {
         const date = new Date(dateString);
         const day = date.getDate().toString().padStart(2, '0');
@@ -36,8 +34,10 @@ const Singleblog = ({ blog, onDelete }: { blog: Blog; onDelete?: (blogId: string
     const handleDeleteClick = (event: React.MouseEvent<HTMLSpanElement>) => {
         event.preventDefault();
         event.stopPropagation();
-        deleteBlogFromFirestore(blog?.id);
-        onDelete(blog?.id);
+        if (blog?.id) {
+            deleteBlogFromFirestore(blog.id);
+            onDelete?.(blog.id);
+        }
     };
 
     return (

@@ -10,17 +10,8 @@ import ReactQuill from 'react-quill';
 import { useNavigate } from 'react-router';
 import { addBlogToFirestore } from '../../services/blogServices';
 import useAuth from '../../hooks/useAuth';
-// import { Blog } from '../../Blog.types';
+import { Blog } from '../../services/Blog.types';
 
-type  Blog = {
-    // blogImg: string | null;
-    title: string;
-    summary: string;
-    body: string;
-	userId: string;
-    createdAt: string;
-	authorName: string;
-  }
 const Form = () => {
 
 	const [title, setTitle] = useState('')
@@ -70,12 +61,14 @@ const Form = () => {
 	const handleSubmit = async (e: { preventDefault: () => void; }) => {
 		e.preventDefault()
 		const blogData: Blog = {
+			id: null,
 			title: title,
 			summary: summary,
 			body: body,
 			userId: user?.uid as string,
 			createdAt: new Date().toISOString(),
-			authorName: name
+			authorName: name,
+			likes: [],
 
 		};
 		setPublishing(true);

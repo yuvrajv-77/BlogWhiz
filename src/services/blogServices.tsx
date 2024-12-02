@@ -1,14 +1,8 @@
 import { collection, addDoc, getDocs, query, where, doc, getDoc, deleteDoc, updateDoc, arrayRemove, arrayUnion } from 'firebase/firestore';
 import { db } from '../config/firebaseConfig';
+import { Blog } from './Blog.types';
 
-type BlogData = {
-  // blogImg: string | null;
-  title: string;
-  summary: string;
-  body: string;
-  userId: string;
-  createdAt: Date;
-}
+
 
 export const getBlogsFromFirestore = async () => {
 
@@ -17,12 +11,22 @@ export const getBlogsFromFirestore = async () => {
     const querySnapshot = await getDocs(blogCollectionRef);
     const allBlogs = querySnapshot.docs.map(doc => (  // dont use forEach
       // console.log(doc.id, doc.data())
-    {
-      id: doc.id, 
-      ...doc.data()
-    }
-   
-    )) ;
+      {
+        id: doc.id,
+        title: doc.data().title,
+        summary: doc.data().summary,
+        body: doc.data().body,
+        userId: doc.data().userId,
+        createdAt: doc.data().createdAt,
+        authorName: doc.data().authorName,
+        likes: doc.data().likes,
+      }
+      // {
+      //   id: doc.id, 
+      //   ...doc.data()
+      // }
+
+    ));
     return allBlogs;
 
   } catch (e) {
@@ -30,7 +34,7 @@ export const getBlogsFromFirestore = async () => {
   }
 }
 
-export const addBlogToFirestore = async (blogData: BlogData) => {
+export const addBlogToFirestore = async (blogData: Blog) => {
   try {
     const blogCollectionRef = collection(db, 'blogs');
     const docRef = await addDoc(blogCollectionRef, {
@@ -43,7 +47,7 @@ export const addBlogToFirestore = async (blogData: BlogData) => {
   }
 };
 
-export const getUserBlogsFromFirestore = async (userId:string) => {
+export const getUserBlogsFromFirestore = async (userId: string) => {
   try {
     const blogCollectionRef = collection(db, 'blogs');
     const userBlogsQuery = query(blogCollectionRef, where("userId", "==", userId));
@@ -51,12 +55,12 @@ export const getUserBlogsFromFirestore = async (userId:string) => {
     const querySnapshot = await getDocs(userBlogsQuery);
     const myBlogs = querySnapshot.docs.map(doc => (  // dont use forEach
       // console.log(doc.id, doc.data())
-    {
-      id: doc.id, 
-      ...doc.data()
-    }
-   
-    )) ;
+      {
+        id: doc.id,
+        ...doc.data()
+      }
+
+    ));
     return myBlogs;
 
   } catch (e) {
@@ -67,7 +71,7 @@ export const getUserBlogsFromFirestore = async (userId:string) => {
 export const getBlogById = async (blogId: string) => {
   const blogRef = doc(db, 'blogs', blogId);
   const blogSnap = await getDoc(blogRef);
-  
+
   if (blogSnap.exists()) {
     return { id: blogSnap.id, ...blogSnap.data() };
   }
@@ -87,7 +91,7 @@ export const deleteBlogFromFirestore = async (blogId: string) => {
 export const toggleLike = async (blogId: string, userId: string) => {
   const blogRef = doc(db, 'blogs', blogId);
   const blog = await getBlogById(blogId);
-  
+
   if (blog.likes.includes(userId)) {
     await updateDoc(blogRef, {
       likes: arrayRemove(userId)
