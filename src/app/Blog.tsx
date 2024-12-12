@@ -6,6 +6,8 @@ import { parse } from 'node-html-parser';
 import useAuth from '../hooks/useAuth';
 import { GoHeart, GoHeartFill } from 'react-icons/go';
 import { BiMessageSquareDetail, BiSolidMessageSquareDetail } from 'react-icons/bi';
+import toast, { Toaster } from 'react-hot-toast';
+import CommentBox from '../components/CommentBox';
 
 const Blog = () => {
 
@@ -14,6 +16,7 @@ const Blog = () => {
     const [blog, setBlog] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const [isLiked, setIsLiked] = useState(false);
+    const [commentBoxOpen, setCommentBoxOpen] = useState(false)
     
 
     // this method returns the whole promise
@@ -56,6 +59,7 @@ const Blog = () => {
         // Update local UI state
         setIsLiked(!isLiked);
 
+        
         // Update blog state immediately
         setBlog((prev: any) => {
             if (!prev) return prev; // Ensure prev is not null or undefined
@@ -70,11 +74,9 @@ const Blog = () => {
                 likes: updatedLikes
             };
         });
-        
-        
+          
     };
 
-    
 
     const formatDate = (dateString: string) => {
         const date = new Date(dateString);
@@ -106,6 +108,7 @@ const Blog = () => {
         )
     }
 
+    
     return (
         <div className='px-7 lg:px-0 md:px-10 lg:max-w-[50rem] mt-7 mx-auto '>
             <div className=''>
@@ -128,6 +131,10 @@ const Blog = () => {
                             }
                             <p className='text-sm text-gray-600 font-blog'>{blog?.likes.length}</p>
                         </span>
+                        <span className='flex items-center gap-2 cursor-pointer' onClick={() => setCommentBoxOpen(!commentBoxOpen)} >
+                            <BiMessageSquareDetail size={24} color='gray'/>
+                            <p className='text-sm text-gray-600 font-blog'>{blog.comments.length}</p>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -140,6 +147,10 @@ const Blog = () => {
                     {renderContent()}
                 </p>
             </div>
+            <Toaster/>
+            
+            {commentBoxOpen && <CommentBox setCommentBoxOpen={setCommentBoxOpen} commentBoxOpen={commentBoxOpen} blogId={id}/>}
+       
         </div>
     )
 }

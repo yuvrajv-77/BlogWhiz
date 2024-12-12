@@ -8,14 +8,14 @@ export interface Blog {
   authorName: string;
 
   likes: string[]; // Array of userIds who liked the post
-  // comments: Comment[];
+  comments: Comment[];
 }
 
 
-// export interface Comment {
-//   id: string;
-//   userId: string;
-//   userName: string;
-//   content: string;
-//   createdAt: string;
-// }
+export interface Comment {
+  id: string;
+  userId: string;
+  userName: string;
+  content: string;
+  createdAt: string;
+}

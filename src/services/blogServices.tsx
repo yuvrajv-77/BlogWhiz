@@ -102,3 +102,52 @@ export const toggleLike = async (blogId: string, userId: string) => {
     });
   }
 }
+
+export const addCommentToFirestore = async (blogId: string, comment: Comment) => {
+  try {
+    const blogRef = doc(db, 'blogs', blogId);
+    await updateDoc(blogRef, {
+      comments: arrayUnion(comment)
+    });
+    console.log('Comment added successfully');
+  } catch (e) {
+    console.error('Error adding comment: ', e);
+  }
+};
+
+// Get comments for a specific blog
+export const getBlogComments = async (blogId: string) => {
+  try {
+    const blogRef = doc(db, 'blogs', blogId);
+    const blogSnap = await getDoc(blogRef);
+    
+    if (blogSnap.exists()) {
+      return blogSnap.data().comments || [];
+    }
+    return [];
+  } catch (e) {
+    console.error('Error fetching comments: ', e);
+    return [];
+  }
+};
+
+// Delete a comment from a blog
+export const deleteCommentFromFirestore = async (blogId: string, commentId: string) => {
+  try {
+    const blogRef = doc(db, 'blogs', blogId);
+    const blog = await getBlogById(blogId);
+    
+    if (blog && blog.comments) {
+      const updatedComments = blog.comments.filter(
+        (comment: Comment) => comment.id !== commentId
+      );
+      
+      await updateDoc(blogRef, {
+        comments: updatedComments
+      });
+      console.log('Comment deleted successfully');
+    }
+  } catch (e) {
+    console.error('Error deleting comment: ', e);
+  }
+};

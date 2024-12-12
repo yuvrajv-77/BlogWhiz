@@ -12,7 +12,7 @@ const Header = () => {
 
     const { user, userDetail, handleLogout } = useAuth();
 
-  const {setOpenGetStarted, openGetStarted} = useModal()
+    const {setOpenGetStarted, openGetStarted} = useModal()
     
     const [isOpen, setIsOpen] = useState(false);
 
@@ -49,7 +49,7 @@ const Header = () => {
                                     }
                                 </div>
                             ) : (
-                                <div  onClick={() => {setOpenGetStarted(true); console.log(openGetStarted);
+                                <div  onClick={() => {setOpenGetStarted(true);
                                 }}>
                                     <ButtonPrimary >Get Started</ButtonPrimary>
                                 </div>    

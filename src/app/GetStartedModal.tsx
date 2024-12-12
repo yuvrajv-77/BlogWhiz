@@ -7,6 +7,8 @@ import { useNavigate } from 'react-router';
 import SignUpForm from '../components/SignUpForm';
 import SignInForm from '../components/SignInForm';
 import { GetStartedContext } from '../contexts/GetStarted';
+import toast, { Toaster } from 'react-hot-toast';
+
 
 const GetStartedModal = () => {
     const { user,handlesignInWithGoogle, handlesignInWithGithub } = useAuth();
@@ -22,7 +24,7 @@ const GetStartedModal = () => {
     }, [user, navigate]);
     return (
         
-        <div className='flex  justify-center size-[678px] py-20 items-center  bg-white border top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 absolute'>
+        <div className='flex justify-center size-[678px] py-20 items-center bg-white border top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 absolute'>
 
             {/* for sign up */}
             {isGetStarted ? (
