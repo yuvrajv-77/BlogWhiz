@@ -40,10 +40,13 @@ const Singleblog = ({ blog, onDelete }: { blog: Blog; onDelete?: (blogId: string
         }
     };
 
+    const randomImageNumber = Math.floor(Math.random() * 5) + 1;
+    const blogImage = `/blog${randomImageNumber}.jpg`;
+
     return (
         <Link to={`/blog/${blog?.id}`}>
             <div className='flex group py-5 gap-8 justify-between flex-row-reverse md:w-full transition-colors duration-200 cursor-pointer ease-in-out'>
-                <img src={blogData[1].blogImg} className=' w-[100px] h-[60px] md:w-[160px] md:h-[100px] md:ml- border object-cover' alt="" />
+                <img src={blogImage} className=' w-[100px] h-[60px] md:w-[160px] md:h-[100px] md:ml- border object-cover' alt="" />
                 <div className='flex  flex-col  gap-3 w-full '>
                     <h1 className='text-lg md:text-2xl lg:text-2xl leading-5 font-bold font-brand group-hover:underline'>{blog?.title}</h1>
                     <h3 className='text-sm md:text-lg text-gray-500 line-clamp-2 font-blog font-normal leading-tight md:leading-none'>{blog?.summary}</h3>

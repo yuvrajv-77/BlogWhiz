@@ -15,6 +15,9 @@ const Gridblog = ({ blog }: { blog: Blog }) => {
 
     const name = user?.displayName || userDetail?.displayName || "A Reader or Author";
 
+    const randomImageNumber = Math.floor(Math.random() * 5) + 1;
+    const blogImage = `/blog${randomImageNumber}.jpg`;
+    
     const formatDate = (dateString: string) => {
         const date = new Date(dateString);
         const day = date.getDate().toString().padStart(2, '0');
@@ -27,7 +30,7 @@ const Gridblog = ({ blog }: { blog: Blog }) => {
         <Link to={`/blog/${blog?.id}`}>
             <div className='flex group  py-5 gap-5  justify-between  md:flex-col flex-row-reverse md:w-full hover:bg-gray-50 transition-colors duration-200 cursor-pointer ease-in-out'>
 
-                <img src="https://images.pexels.com/photos/60626/pexels-photo-60626.jpeg?auto=compress&cs=tinysrgb&w=600" className='mx-auto w-[7rem] h-[4rem] md:w-[25rem] md:h-[14rem] lg:w-[28rem] lg:h-[17rem]' alt="" />
+                <img src={blogImage} className='mx-auto w-[7rem] h-[4rem] md:w-[25rem] md:h-[14rem] lg:w-[28rem] lg:h-[17rem]' alt="" />
 
 
                 <div className='flex  flex-col justify-between gap-4 md:gap-3 '>
