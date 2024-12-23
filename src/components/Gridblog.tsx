@@ -1,6 +1,6 @@
 
 import { Link } from 'react-router';
-// import { Blog } from '../Blog.types'
+// import { Blog } from '../Blog.types'/
 import useAuth from '../hooks/useAuth';
 import { GoHeart } from 'react-icons/go';
 import { BiMessageSquareDetail } from 'react-icons/bi';
@@ -10,11 +10,8 @@ import { Blog } from '../services/Blog.types';
 
 const Gridblog = ({ blog }: { blog: Blog }) => {
 
-    const { user, userDetail } = useAuth()
+    // const { user, userDetail } = useAuth()
   
-
-    const name = user?.displayName || userDetail?.displayName || "A Reader or Author";
-
     const randomImageNumber = Math.floor(Math.random() * 5) + 1;
     const blogImage = `/blog${randomImageNumber}.jpg`;
     
@@ -28,10 +25,9 @@ const Gridblog = ({ blog }: { blog: Blog }) => {
 
     return (
         <Link to={`/blog/${blog?.id}`}>
-            <div className='flex group  py-5 gap-5  justify-between  md:flex-col flex-row-reverse md:w-full hover:bg-gray-50 transition-colors duration-200 cursor-pointer ease-in-out'>
+            <div className='flex group  py-5 gap-5  justify-between  md:flex-col flex-row-reverse md:w-full cursor-pointer '>
 
                 <img src={blogImage} className='mx-auto w-[7rem] h-[4rem] md:w-[25rem] md:h-[14rem] lg:w-[28rem] lg:h-[17rem]' alt="" />
-
 
                 <div className='flex  flex-col justify-between gap-4 md:gap-3 '>
                     <h1 className='text-lg md:text-2xl lg:text-2xl leading-tight md:leading-none font-brand font-bold group-hover:underline'>{blog?.title}</h1>
@@ -53,7 +49,6 @@ const Gridblog = ({ blog }: { blog: Blog }) => {
                             </span>
                             <span className='flex items-center gap-2'>
                                 {
-
                                     <BiMessageSquareDetail size={24} color='gray' />
                                 }
                                 <p className='text-sm font-blog'>35</p>

@@ -58,7 +58,7 @@ const Blog = () => {
 
         // Update local UI state
         setIsLiked(!isLiked);
-
+        toast.success('Blog Liked');
         
         // Update blog state immediately
         setBlog((prev: any) => {

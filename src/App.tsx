@@ -11,6 +11,9 @@ import Form from './app/admin/Form';
 import ForgotPassword from './app/forgotPassword/ForgotPassword';
 import NewPassword from './app/forgotPassword/NewPassword';
 import ProtectedRoutes from './components/ProtectedRoutes';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+
 
 
 function App(): React.ReactElement {
@@ -81,10 +84,15 @@ function App(): React.ReactElement {
     ]
   )
 
+  const queryClient = new QueryClient();
+
   return (
     <>
       <AuthContextProvider>
+        <QueryClientProvider client={queryClient}>
         <RouterProvider router={router} />
+        <ReactQueryDevtools initialIsOpen={true} />
+        </QueryClientProvider>
       </AuthContextProvider>
     </>
   )

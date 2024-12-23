@@ -5,10 +5,15 @@ import { Outlet } from 'react-router';
 import GetStartedProvider from '../contexts/GetStarted';
 import GetStartedModal from './GetStartedModal';
 import useModal from '../hooks/useModal';
+import useAuth from '../hooks/useAuth';
+import toast, { Toaster } from 'react-hot-toast';
+import { useEffect } from 'react';
 
 
 
 function RootLayout() {
+ 
+  
   return (
     <div className=''>
       <GetStartedProvider>
@@ -21,6 +26,12 @@ function RootLayout() {
 // Create a new component to use the context
 function LayoutContent() {
   const {openGetStarted, setOpenGetStarted} = useModal();
+  const { user, userDetail } = useAuth();
+  const name = user?.displayName || userDetail?.displayName || "A Reader or Author";
+  
+  useEffect(()=>{
+    user && toast.success(`Logged in as ${name}`);
+  },[name])
   
   return (
     <>
@@ -32,6 +43,7 @@ function LayoutContent() {
           <GetStartedModal />
         </>
       )}
+      <Toaster/>
     </>
   );
 }

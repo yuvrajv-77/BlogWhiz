@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router';
 import { addBlogToFirestore } from '../../services/blogServices';
 import useAuth from '../../hooks/useAuth';
 import { Blog } from '../../services/Blog.types';
+import toast, { Toaster } from 'react-hot-toast';
 
 const Form = () => {
 
@@ -69,6 +70,7 @@ const Form = () => {
 			createdAt: new Date().toISOString(),
 			authorName: name,
 			likes: [],
+			comments: [],
 
 		};
 		setPublishing(true);
@@ -76,6 +78,7 @@ const Form = () => {
 		try {
 			await addBlogToFirestore(blogData);
 			navigate('/admin/dashboard');
+			toast.success('Blog Published Successfully!');
 			setSuccess(true);
 		} catch (error) {
 			console.error('Error publishing blog:', error);
@@ -151,7 +154,10 @@ const Form = () => {
 				</div>
 			</form>
 			{publishing && <Publishing/>}
-			
+			<Toaster
+			toastOptions={
+				{duration: 3000}
+			}/>
 		</div>
 	)
 }

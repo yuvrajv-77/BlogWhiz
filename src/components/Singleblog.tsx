@@ -31,12 +31,18 @@ const Singleblog = ({ blog, onDelete }: { blog: Blog; onDelete?: (blogId: string
         }
     }, [])
 
-    const handleDeleteClick = (event: React.MouseEvent<HTMLSpanElement>) => {
+    const handleDeleteClick = async (event: React.MouseEvent<HTMLSpanElement>) => {
         event.preventDefault();
         event.stopPropagation();
-        if (blog?.id) {
-            deleteBlogFromFirestore(blog.id);
-            onDelete?.(blog.id);
+        
+        if (window.confirm('Delete this blog post?')) {
+            try {
+                await deleteBlogFromFirestore(blog.id as string);
+                onDelete?.(blog.id as string);
+                
+            } catch (error) {
+                console.error('Delete failed:', error);
+            }
         }
     };
 
@@ -44,7 +50,8 @@ const Singleblog = ({ blog, onDelete }: { blog: Blog; onDelete?: (blogId: string
     const blogImage = `/blog${randomImageNumber}.jpg`;
 
     return (
-        <Link to={`/blog/${blog?.id}`}>
+
+        <Link to={`/blog/${blog?.id}`} >
             <div className='flex group py-5 gap-8 justify-between flex-row-reverse md:w-full transition-colors duration-200 cursor-pointer ease-in-out'>
                 <img src={blogImage} className=' w-[100px] h-[60px] md:w-[160px] md:h-[100px] md:ml- border object-cover' alt="" />
                 <div className='flex  flex-col  gap-3 w-full '>
