@@ -117,11 +117,14 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
     }
 
     const forgotPassword = async () => {
+        
         try {
             await sendPasswordResetEmail(auth, email);
             setIsSending(true);
         } catch (err) {
             setError(err instanceof Error ? err : new Error('Failed to send reset email'));
+            console.log("Error: ", err);
+            
             setIsSending(false);
         }
     }

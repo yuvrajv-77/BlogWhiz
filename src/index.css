@@ -17,13 +17,17 @@
 }
 
 .ql-toolbar{
-  /* border-radius: none; */
+  /* border-radius: none;  */
   /* background-color: black; */
+ 
+  
   
 }
 
 .ql-editor{
-  font-family: 'Forum', serif;
+  font-family: 'Questrial', serif;
   font-size: 1rem;
   overflow: hidden;
+min-height: 15rem;
+
 }

@@ -6,7 +6,7 @@ export interface Blog {
   userId: string;
   createdAt: string;
   authorName: string;
-
+  imageUrl: string;
   likes: string[]; // Array of userIds who liked the post
   comments: Comment[];
 }

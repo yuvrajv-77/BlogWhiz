@@ -34,7 +34,7 @@ const GetStartedModal = () => {
     }
   }, [user, navigate]);
   return (
-    <div className="flex justify-center size-[678px] py-20 items-center bg-white border top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 absolute">
+    <div className="flex justify-center size-full  md:size-[678px] py-20 items-center bg-white border top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 fixed">
       {/* for sign up */}
       {isGetStarted ? (
         showSignUp ? (
@@ -48,7 +48,7 @@ const GetStartedModal = () => {
               />
             </span>
             <h1 className="text-center text-4xl font-logo font-bold mb-14">
-              Join BlogOne.
+              Join OneBlog.
             </h1>
 
             <button

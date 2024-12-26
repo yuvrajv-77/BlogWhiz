@@ -20,6 +20,8 @@ export const getBlogsFromFirestore = async () => {
         createdAt: doc.data().createdAt,
         authorName: doc.data().authorName,
         likes: doc.data().likes,
+        imageUrl: doc.data().imageUrl,
+        comments: doc.data().comments
       }
       // {
       //   id: doc.id, 
@@ -57,7 +59,15 @@ export const getUserBlogsFromFirestore = async (userId: string) => {
       // console.log(doc.id, doc.data())
       {
         id: doc.id,
-        ...doc.data()
+        title: doc.data().title,
+        summary: doc.data().summary,
+        body: doc.data().body,
+        userId: doc.data().userId,
+        createdAt: doc.data().createdAt,
+        authorName: doc.data().authorName,
+        likes: doc.data().likes,
+        imageUrl: doc.data().imageUrl,
+        comments: doc.data().comments
       }
 
     ));

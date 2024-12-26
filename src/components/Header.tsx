@@ -30,7 +30,7 @@ const Header = () => {
         <div>
           <Link to="/">
             <h1 className="text-2xl md:text-4xl font-logo font-bold cursor-pointer">
-              Blog One
+              OneBlog
             </h1>
           </Link>
         </div>
