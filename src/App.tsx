@@ -81,7 +81,7 @@ function App(): React.ReactElement {
       <AuthContextProvider>
         <QueryClientProvider client={queryClient}>
         <RouterProvider router={router} />
-        <ReactQueryDevtools initialIsOpen={true} />
+        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
         </QueryClientProvider>
       </AuthContextProvider>
     </>

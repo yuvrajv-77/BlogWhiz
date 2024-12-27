@@ -14,8 +14,8 @@ const SignUpForm = () => {
     }
     return (
         <div className='flex  flex-col gap-4 '>
-            <span className='absolute right-8 hover:bg-gray-200 rounded-full top-8 cursor-pointer p-1'><AiOutlineClose size={21} onClick={() => setOpenGetStarted(false)}  /></span>
-            {showSignUp && <span className='absolute left-8 top-8 hover:bg-gray-200 rounded-full  cursor-pointer p-1'><AiOutlineLeft size={21} onClick={() => setShowSignUp(false)}  /></span>}
+            <span className='absolute right-8 hover:bg-gray-200 rounded-full top-8 cursor-pointer p-3' onClick={() => setOpenGetStarted(false)}><AiOutlineClose size={21}   /></span>
+            {showSignUp && <span className='absolute left-8 top-8 hover:bg-gray-200 rounded-full  cursor-pointer p-3' onClick={() => setShowSignUp(false)}><AiOutlineLeft size={21}   /></span>}
             <h1 className='text-center text-4xl font-logo font-bold mb-14'>Sign up with email.</h1>
             <form className=' text-sm space-y-4' action="" onSubmit={handleFormSubmit} >
                 <div className=' space-y-3'>

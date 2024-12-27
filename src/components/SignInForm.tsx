@@ -15,8 +15,8 @@ const SignInForm = () => {
     }
     return (
         <div className='flex  flex-col gap-4 '>
-            <span className='absolute right-8 hover:bg-gray-200 rounded-full top-8 cursor-pointer p-1'><AiOutlineClose size={21} onClick={() => setOpenGetStarted(false)}  /></span>
-            {showSignIn && <span className='absolute left-8 top-8 hover:bg-gray-200 rounded-full  cursor-pointer p-1'><AiOutlineLeft size={21} onClick={() => setShowSignIn(false)}  /></span>}
+            <span className='absolute right-8 hover:bg-gray-200 rounded-full top-8 cursor-pointer p-3' onClick={() => setOpenGetStarted(false)}><AiOutlineClose size={21}   /></span>
+            {showSignIn && <span className='absolute left-8 top-8 hover:bg-gray-200 rounded-full  cursor-pointer p-3 'onClick={() => setShowSignIn(false)} ><AiOutlineLeft size={21}  /></span>}
             <h1 className='text-center text-4xl font-logo font-bold mb-14'>Sign In with email.</h1>
             <form className=' text-sm flex flex-col gap-y-2' action="" onSubmit={handleFormSubmit} >
                

@@ -128,9 +128,9 @@ const Blog = () => {
 
                 <div className='flex justify-between py-7 items-center border-b'>
                     <div className='flex items-center gap-4  w-full'>
-                        <img src='/avatar.jpg' className='size-10 rounded-full object-cover' alt="" />
+                        <img src='/avatar.jpg' className='size-10 rounded-full object-cover ' alt="" />
                         <span className='flex justify-between flex-col gap-1'>
-                            <p className='text-sm '>{blog?.authorName}</p>
+                            <p className='text-sm md:text-base '>{blog?.authorName}</p>
                             <p className='text-xs text-gray-500'>{formatDate(blog?.createdAt)}</p>
                         </span>
                     </div>
@@ -157,7 +157,7 @@ const Blog = () => {
             </div>
             
             <div className='mt-10 w-full block'>
-                <img src={blog?.imageUrl} className='h-[12rem] md:h-[30rem] w-full object-cover' alt="" />
+                <img src={blog?.imageUrl} className='h-[12rem] md:h-[30rem] w-full object-cover rounded-2xl' alt="" />
             </div>
 
             <div className='my-12  md:my-9 '>

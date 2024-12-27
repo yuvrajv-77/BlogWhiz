@@ -53,7 +53,7 @@ const AdminPanel = () => {
           <div className="flex items-center gap-4 ">
             <img
               src={profileImage}
-              className="size-20 rounded-full object-cover"
+              className="size-14 md:size-20  rounded-full object-cover"
               alt=""
             />
             <h1 className="text-2xl md:text-5xl font-logo font-semibold">

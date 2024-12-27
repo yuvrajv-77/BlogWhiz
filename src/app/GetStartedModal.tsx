@@ -41,10 +41,10 @@ const GetStartedModal = () => {
           <SignUpForm />
         ) : (
           <div className="flex  flex-col gap-4 ">
-            <span className="absolute right-8 hover:bg-gray-200 rounded-full top-8 cursor-pointer p-1">
+            <span className="absolute right-8 hover:bg-gray-200 rounded-full top-8 cursor-pointer p-3" onClick={() => setOpenGetStarted(false)}>
               <AiOutlineClose
                 size={21}
-                onClick={() => setOpenGetStarted(false)}
+                
               />
             </span>
             <h1 className="text-center text-4xl font-logo font-bold mb-14">
