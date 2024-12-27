@@ -87,12 +87,12 @@ const Home = () => {
                                     </div>
                                     <div className='flex items-center gap-4 '>
                                         <span className='flex items-center gap-2 cursor-pointer'  >
-                                            <GoHeart size={24} color='gray' />
+                                            <GoHeart size={20} color='gray' />
                                             <p className='text-sm font-blog'>{sortedBlogs[0]?.likes.length}</p>
                                         </span>
                                         <span className='flex items-center gap-2'>
                                             {
-                                                <BiMessageSquareDetail size={24} color='gray' />
+                                                <BiMessageSquareDetail size={20} color='gray' />
                                             }
                                             <p className='text-sm font-blog'>{sortedBlogs[0]?.comments.length}</p>
                                         </span>

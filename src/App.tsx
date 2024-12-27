@@ -33,7 +33,6 @@ function App(): React.ReactElement {
             element: <Blog />
           },
           {
-            
             element: <ProtectedRoutes />,
             children: [
               {

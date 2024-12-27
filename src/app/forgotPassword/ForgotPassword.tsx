@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import ButtonPrimary from "../../components/ButtonPrimary";
 import useAuth from "../../hooks/useAuth";
 
@@ -5,17 +6,32 @@ import useAuth from "../../hooks/useAuth";
 const ForgotPassword = () => {
 
     const { error, email, setEmail, forgotPassword, isSending } = useAuth();
-
+  
     const handleFormSubmit = (e: { preventDefault: () => void; }) => {
         e.preventDefault();
-        forgotPassword();
+        toast.promise(forgotPassword(), {
+            loading: 'Sending Reset Link To Email',
+            success: 'Email Sent ✅',
+            error: 'Error when Sending',
+          },{
+            success: {
+                duration: 5000,
+                icon: '📩',
+            },
+            error:{
+                duration: 5000,
+                icon: '😵',
+            }
+          });
     }
+
+    
     return (
         <div className='flex my-56 justify-center'>
             <form className='flex flex-col gap-6  p-10' onSubmit={handleFormSubmit}>
                 <h1 className='text-center text-2xl font-semibold font-blog'>Reset Password</h1>
                 <div className=' space-y-3 font-brand font-semibold'>
-                    <p>Email</p>
+                    {/* <p>Email</p> */}
                     <input className='bg-gray-100 font-logo w-[25rem] rounded-lg p-3 text-base'
                         placeholder='Enter Your Registerd Email'
                         value={email}

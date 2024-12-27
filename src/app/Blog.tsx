@@ -10,6 +10,16 @@ import toast, { Toaster } from 'react-hot-toast';
 import CommentBox from '../components/CommentBox';
 import { GetStartedContext } from '../contexts/GetStarted';
 
+const contentInnerHtml:string = '[&_h1]:text-3xl ' +
+               ' [&_h1]:font-bold '+
+                '[&_h1]:mb-3 '+
+               ' [&_h2]:text-2xl ' +
+                '[&_h2]:font-semibold '+
+                '[&_h2]:mb-2 '+
+                '[&_p]:md:text-xl '+
+                '[&_p]:text-normal '+
+               ' [&_img]:mx-auto '+
+                '[&_img]:my-4 '
 const Blog = () => {
 
     const { id } = useParams<{ id: string }>();
@@ -59,7 +69,7 @@ const Blog = () => {
 
         // Update local UI state
         setIsLiked(!isLiked);
-        toast.success('Blog Liked');
+        toast.success('Blog Liked',{icon: '♥️'});
         
         // Update blog state immediately
         setBlog((prev: any) => {
@@ -150,8 +160,9 @@ const Blog = () => {
                 <img src={blog?.imageUrl} className='h-[12rem] md:h-[30rem] w-full object-cover' alt="" />
             </div>
 
-            <div className='mt-12 md:mt-9 '>
-                <p className=' [&_h1]:text-3xl [&_h1]:font-bold [&_h1]:mb-3 [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:mb-2" [&_p]:md:text-xl [&_p]:text-normal tracking-wide leading-7 md:leading-9 [&_img]:mx-auto [&_img]:my-4  md:tracking-wider font-logo antialiased md:font-semibold md:text-justify text-slate-800 '>
+            <div className='my-12  md:my-9 '>
+                <p className={`${contentInnerHtml}
+                tracking-wide leading-7 md:leading-9   md:tracking-wider font-blog antialiased  md:text-justify text-slate-800 `}>
                     {renderContent()}
                 </p>
             </div>

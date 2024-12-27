@@ -12,8 +12,8 @@ const Gridblog = ({ blog }: { blog: Blog }) => {
 
     // const { user, userDetail } = useAuth()
 
-    const randomImageNumber = Math.floor(Math.random() * 5) + 1;
-    const blogImage = `/blog${randomImageNumber}.jpg`;
+    // const randomImageNumber = Math.floor(Math.random() * 5) + 1;
+    // const blogImage = `/blog${randomImageNumber}.jpg`;
 
     const formatDate = (dateString: string) => {
         const date = new Date(dateString);
@@ -34,7 +34,7 @@ const Gridblog = ({ blog }: { blog: Blog }) => {
                     <h3 className='text-sm md:text-base text-gray-500 line-clamp-2 font-blog  leading-tight '>{blog?.summary}</h3>
 
                     <div className='md:flex items-center justify-between mt-2 hidden w-full '>
-                       <div className='flex items-center gap-4'>
+                        <div className='flex items-center gap-4'>
                             <img src='/avatar.jpg' className={`size-6 md:size-10 object-cover rounded-full cursor-pointer`} alt="" />
                             <span className='flex justify-between flex-col gap-1'>
                                 <p className='text-xs'>{blog?.authorName}</p>
@@ -43,13 +43,11 @@ const Gridblog = ({ blog }: { blog: Blog }) => {
                         </div>
                         <div className='flex items-center gap-4 '>
                             <span className='flex items-center gap-2 cursor-pointer'  >
-                                <GoHeart size={24} color='gray' />
+                                <GoHeart size={20} color='gray' />
                                 <p className='text-sm font-blog'>{blog?.likes.length}</p>
                             </span>
                             <span className='flex items-center gap-2'>
-                                {
-                                    <BiMessageSquareDetail size={24} color='gray' />
-                                }
+                                <BiMessageSquareDetail size={20} color='gray' />
                                 <p className='text-sm font-blog'>{blog?.comments.length}</p>
                             </span>
 
@@ -57,31 +55,31 @@ const Gridblog = ({ blog }: { blog: Blog }) => {
 
                     </div>
 
-                </div> 
+                </div>
             </div>
             <div className='flex items-center justify-between md:hidden w-full border-b pb-5'>
-                       <div className='flex items-center gap-4'>
-                            <img src='/avatar.jpg' className={`size-6 md:size-10 object-cover rounded-full cursor-pointer`} alt="" />
-                            <span className='flex justify-between flex-col gap-1'>
-                                <p className='text-xs'>{blog?.authorName}</p>
-                                <p className='text-xs text-gray-500'>{formatDate(blog?.createdAt)}</p>
-                            </span>
-                        </div>
-                        <div className='flex items-center gap-4 '>
-                            <span className='flex items-center gap-2 cursor-pointer'  >
-                                <GoHeart size={15} color='gray' />
-                                <p className='text-sm font-blog'>{blog?.likes.length}</p>
-                            </span>
-                            <span className='flex items-center gap-2'>
-                                {
-                                    <BiMessageSquareDetail size={15} color='gray' />
-                                }
-                                <p className='text-sm font-blog'>{blog?.comments.length}</p>
-                            </span>
+                <div className='flex items-center gap-4'>
+                    <img src='/avatar.jpg' className={`size-6 md:size-10 object-cover rounded-full cursor-pointer`} alt="" />
+                    <span className='flex justify-between flex-col gap-1'>
+                        <p className='text-xs'>{blog?.authorName}</p>
+                        <p className='text-xs text-gray-500'>{formatDate(blog?.createdAt)}</p>
+                    </span>
+                </div>
+                <div className='flex items-center gap-4 '>
+                    <span className='flex items-center gap-2 cursor-pointer'  >
+                        <GoHeart size={15} color='gray' />
+                        <p className='text-sm font-blog'>{blog?.likes.length}</p>
+                    </span>
+                    <span className='flex items-center gap-2'>
+                        {
+                            <BiMessageSquareDetail size={15} color='gray' />
+                        }
+                        <p className='text-sm font-blog'>{blog?.comments.length}</p>
+                    </span>
 
-                        </div>
+                </div>
 
-                    </div>
+            </div>
         </Link>
     )
 }

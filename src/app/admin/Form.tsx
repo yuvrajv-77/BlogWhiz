@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, Suspense } from 'react'
+import React, { useRef, useState } from 'react'
 
 import 'react-quill/dist/quill.bubble.css';
 import 'react-quill/dist/quill.snow.css';
@@ -11,8 +11,8 @@ import useAuth from '../../hooks/useAuth';
 import { Blog } from '../../services/Blog.types';
 import toast, { Toaster } from 'react-hot-toast';
 import { uploadImage } from '../../services/storageServices';
-import { PiCross, PiTrash, PiX, PiXBold } from 'react-icons/pi';
-import ButtonPrimary, { ButtonSecondary } from '../../components/ButtonPrimary';
+import { PiTrash } from 'react-icons/pi';
+import ButtonPrimary from '../../components/ButtonPrimary';
 
 const Form = () => {
 
@@ -177,7 +177,7 @@ const Form = () => {
 					<div className=' flex items-center justify-center h-44 bg-gray-100 relative'>
 						{selectedFile ? (
 							<div className=''>
-								<img src={previewUrl} className='h-44 w-screen object-cover' alt="" />
+								<img src={previewUrl || undefined} className='h-44 w-screen object-cover' alt="" />
 								<ButtonPrimary className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2' onClick={() => setSelectedFile(null)}><PiTrash /></ButtonPrimary>
 							</div>
 						) : (
@@ -224,6 +224,7 @@ const Form = () => {
 				</div>
 			</form>
 			{publishing && <Publishing />}
+			{/* <Publishing /> */}
 			<Toaster
 				toastOptions={
 					{ duration: 3000 }

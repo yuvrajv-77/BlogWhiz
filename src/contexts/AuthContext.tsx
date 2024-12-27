@@ -124,9 +124,8 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
         } catch (err) {
             setError(err instanceof Error ? err : new Error('Failed to send reset email'));
             console.log("Error: ", err);
-            
-            setIsSending(false);
         }
+        setIsSending(false);
     }
 
     const resetPassword = async (oobcode: string, newPassword: string) => {

@@ -4,7 +4,6 @@ import { blogData } from './blogdata';
 import useAuth from '../hooks/useAuth';
 import { LuTrash2 } from 'react-icons/lu';
 import { useEffect, useState } from 'react';
-import { deleteBlogFromFirestore } from '../services/blogServices';
 import { GoHeart } from 'react-icons/go';
 import { BiMessageSquareDetail } from 'react-icons/bi';
 import { Blog } from '../services/Blog.types';
@@ -12,8 +11,8 @@ import { Blog } from '../services/Blog.types';
 
 
 const Singleblog = ({ blog, onDelete }: { blog: Blog; onDelete?: (blogId: string) => void }) => {
-    const { user, userDetail } = useAuth()
-    const [isAuthor, setIsAuthor] = useState(false);
+    // const { user, userDetail } = useAuth()
+    // const [isAuthor, setIsAuthor] = useState(false);
 
     const formatDate = (dateString: string) => {
         const date = new Date(dateString);
@@ -23,13 +22,13 @@ const Singleblog = ({ blog, onDelete }: { blog: Blog; onDelete?: (blogId: string
         return `${month} ${day}, ${year}`;
     };
 
-    useEffect(() => {
-        if (blog?.userId == user?.uid) {
-            setIsAuthor(true);
-        } else {
-            setIsAuthor(false);
-        }
-    }, [])
+    // useEffect(() => {
+    //     if (blog?.userId == user?.uid) {
+    //         setIsAuthor(true);
+    //     } else {
+    //         setIsAuthor(false);
+    //     }
+    // }, [])
 
     return (
 
@@ -52,14 +51,11 @@ const Singleblog = ({ blog, onDelete }: { blog: Blog; onDelete?: (blogId: string
                         </div>
                         <div className='flex items-center gap-4'>
                             <span className='flex items-center gap-2 cursor-pointer'  >
-                                <GoHeart size={24} color='gray' />
+                                <GoHeart size={20} color='gray' />
                                 <p className='text-sm font-blog'>{blog?.likes.length}</p>
                             </span>
                             <span className='flex items-center gap-2'>
-                                {
-
-                                    <BiMessageSquareDetail size={24} color='gray' />
-                                }
+                                <BiMessageSquareDetail size={20} color='gray' />
                                 <p className='text-sm font-blog'>{blog?.comments.length}</p>
                             </span>
                            
