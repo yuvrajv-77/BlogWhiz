@@ -30,6 +30,8 @@ const Blog = () => {
     const [isLiked, setIsLiked] = useState(false);
     const [commentBoxOpen, setCommentBoxOpen] = useState(false)
     const { setOpenGetStarted } = useContext(GetStartedContext);
+    const [isAnimating, setIsAnimating] = useState(false);
+
 
     // this method returns the whole promise
     // useEffect(() => {
@@ -65,6 +67,11 @@ const Blog = () => {
     const handleLike = async () => {
         if (!user) {setOpenGetStarted(true); return}
 
+        if (!isLiked) {
+            setIsAnimating(true);
+            // Reset animation after a short delay
+            setTimeout(() => setIsAnimating(false), 700);
+        }
         // Call Firestore update
         await toggleLike(id as string, user?.uid ?? '');
 
@@ -145,10 +152,10 @@ const Blog = () => {
                         </span>
                     </div>
                     <div className='flex items-center gap-4'>
-                        <span className='flex items-center gap-2 cursor-pointer' onClick={handleLike} >
+                        <span className='flex items-center gap-2 cursor-pointer  ' onClick={handleLike} >
                             {
-                                isLiked ? <GoHeartFill size={21} color='red' /> :
-                                    <GoHeart size={20} color='gray' />
+                                isLiked ? <GoHeartFill size={21} color='red' className={isAnimating ? 'animate-ping ' : ''} /> :
+                                    <GoHeart size={20} color='gray' className='hover:fill-red-500' />
                             }
                             <p className='text-sm text-gray-600 font-blog'>{blog?.likes.length}</p>
                         </span>
@@ -159,11 +166,11 @@ const Blog = () => {
                                 return;
                             }
                         }} >
-                            <BiMessageSquareDetail size={20} color='gray' />
+                            <BiMessageSquareDetail size={20} color='gray' className='hover:fill-gray-800'/>
                             <p className='text-sm text-gray-600 font-blog'>{blog?.comments.length}</p>
                         </span>
                         <span className='flex items-center gap-2 cursor-pointer' onClick={handleShare } >
-                            <PiShareFat size={20} color='gray' />
+                            <PiShareFat size={20} color='gray' className='hover:fill-gray-900' />
                         </span>
                     </div>
                 </div>
