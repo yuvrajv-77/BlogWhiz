@@ -197,7 +197,7 @@ const Form = () => {
 					{/* body */}
 					<div className='selection:bg-yellow-200 '>
 
-						{/* <ReactQuill
+						<ReactQuill
 							modules={modules}
 							formats={formats} className='min-h-[30rem] text-lg'
 							value={body}
@@ -205,7 +205,7 @@ const Form = () => {
 							// ref={quillRef}
 							theme='snow'
 							placeholder='Tell Your Story. . . . .'
-							onChange={(e) => setBody(e)} /> */}
+							onChange={(e) => setBody(e)} />
 
 
 					</div>
