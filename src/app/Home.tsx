@@ -80,7 +80,7 @@ const Home = () => {
                     sortedBlogs.length > 0 && (
                         <Link to={`/blog/${sortedBlogs[0]?.id}`}>
                             <div className='flex md:border-b group border-gray-200 py-5 gap-8 md:flex-row flex-row-reverse cursor-pointer'>
-                                <img src={sortedBlogs[0]?.imageUrl} className='w-[12rem] h-[4rem] md:w-[20rem] md:h-[13rem] lg:w-[28rem] lg:h-[17rem] rounded-xl md:rounded-2xl object-cover' alt="" />
+                                <img src={sortedBlogs[0]?.imageUrl} className='min-w-[100px] h-[60px] md:w-[20rem] md:h-[13rem] lg:w-[28rem] lg:h-[17rem] rounded-xl md:rounded-2xl object-cover' alt="" />
                                 <div className='flex flex-col justify-between gap-4 md:gap-0'>
                                     <h1 className='text-lg md:text-3xl lg:text-3xl leading-5 font-brand font-extrabold tracking-tight group-hover:underline'>{sortedBlogs[0]?.title}</h1>
                                     <h3 className='text-sm md:text-xl text-gray-500 line-clamp-2 font-blog lg:line-clamp-3 '> {sortedBlogs[0]?.summary}</h3>
