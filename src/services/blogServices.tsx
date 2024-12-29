@@ -1,6 +1,6 @@
 import { collection, addDoc, getDocs, query, where, doc, getDoc, deleteDoc, updateDoc, arrayRemove, arrayUnion } from 'firebase/firestore';
 import { db } from '../config/firebaseConfig';
-import { Blog } from './Blog.types';
+import { Blog, BlogComment } from './Blog.types';
 
 
 
@@ -83,7 +83,7 @@ export const getBlogById = async (blogId: string) => {
   const blogSnap = await getDoc(blogRef);
 
   if (blogSnap.exists()) {
-    return { id: blogSnap.id, ...blogSnap.data() };
+    return { id: blogSnap.id, ...blogSnap.data() } as Blog;
   }
   return null;
 }
@@ -102,7 +102,7 @@ export const toggleLike = async (blogId: string, userId: string) => {
   const blogRef = doc(db, 'blogs', blogId);
   const blog = await getBlogById(blogId);
 
-  if (blog.likes.includes(userId)) {
+  if (blog?.likes.includes(userId)) {
     await updateDoc(blogRef, {
       likes: arrayRemove(userId)
     });
@@ -112,8 +112,7 @@ export const toggleLike = async (blogId: string, userId: string) => {
     });
   }
 }
-
-export const addCommentToFirestore = async (blogId: string, comment: Comment) => {
+export const addCommentToFirestore = async (blogId: string, comment: BlogComment) => {
   try {
     const blogRef = doc(db, 'blogs', blogId);
     await updateDoc(blogRef, {
@@ -149,7 +148,7 @@ export const deleteCommentFromFirestore = async (blogId: string, commentId: stri
     
     if (blog && blog.comments) {
       const updatedComments = blog.comments.filter(
-        (comment: Comment) => comment.id !== commentId
+        (comment: any) => comment.id !== commentId
       );
       
       await updateDoc(blogRef, {

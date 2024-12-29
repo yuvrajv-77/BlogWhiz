@@ -1,16 +1,12 @@
 // import {Blog} from '../Blog.types'
 import { Link } from 'react-router'
-import { blogData } from './blogdata';
-import useAuth from '../hooks/useAuth';
-import { LuTrash2 } from 'react-icons/lu';
-import { useEffect, useState } from 'react';
 import { GoHeart } from 'react-icons/go';
 import { BiMessageSquareDetail } from 'react-icons/bi';
 import { Blog } from '../services/Blog.types';
 
 
 
-const Singleblog = ({ blog, onDelete }: { blog: Blog; onDelete?: (blogId: string) => void }) => {
+const Singleblog = ({ blog }: { blog: Blog; onDelete?: (blogId: string) => void }) => {
     // const { user, userDetail } = useAuth()
     // const [isAuthor, setIsAuthor] = useState(false);
 

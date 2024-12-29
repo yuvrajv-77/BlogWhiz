@@ -55,7 +55,7 @@ const Dashboard = () => {
 	};
 
 	// trying React Query
-	const { data, isPending, isSuccess, isError, error } = useQuery({
+	const { data, isPending, isError, error } = useQuery({
 		queryKey: ['blogs'],
 		queryFn: () => getUserBlogsFromFirestore(user?.uid as string),
 	})
@@ -104,13 +104,14 @@ const Dashboard = () => {
 				</div>
 
 				<div className='border-b-2'></div>
-				{error && (
+				{isError && (
 					<div className="text-red-500 p-4 text-center">
-						{error}
+						{error.message}
 					</div>
 				)}
-				{isPending ? (
+				{isPending ? (<>
 					<Skeleton />
+					<Skeleton /></>
 				) : data?.length === 0 ? (
 					<div className="text-center py-8 text-gray-600">
 						No blogs found. Start writing your first blog!
@@ -145,8 +146,8 @@ const Dashboard = () => {
 													<BiMessageSquareDetail size={20} color='gray' />
 													<p className='text-sm font-blog'>{blog?.comments.length}</p>
 												</span>
-												<span className='flex items-center gap-2 hover:bg-gray-200 p-2 rounded-full' onClick={(e) => handleDeleteClick(e,blog?.id)}>
-													<FiTrash  size={20} color='gray' />												
+												<span className='flex items-center gap-2 hover:bg-gray-200 p-2 rounded-full' onClick={(e) => handleDeleteClick(e, blog?.id)}>
+													<FiTrash size={20} color='gray' />
 												</span>
 
 											</div>
@@ -172,8 +173,8 @@ const Dashboard = () => {
 											<BiMessageSquareDetail size={19} color='gray' />
 											<p className='text-sm font-blog'>{blog?.comments.length}</p>
 										</span>
-										<span className='flex items-center gap-2  hover:bg-gray-200 p-1  rounded-full' onClick={(e) => handleDeleteClick(e,blog?.id)}>
-											<FiTrash  size={19} color='gray' />
+										<span className='flex items-center gap-2  hover:bg-gray-200 p-1  rounded-full' onClick={(e) => handleDeleteClick(e, blog?.id)}>
+											<FiTrash size={19} color='gray' />
 
 										</span>
 

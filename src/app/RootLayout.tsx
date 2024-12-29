@@ -9,6 +9,8 @@ import useAuth from '../hooks/useAuth';
 import toast, { Toaster } from 'react-hot-toast';
 import { useEffect } from 'react';
 import { PiNotePencilLight } from 'react-icons/pi';
+import { getRedirectResult } from 'firebase/auth';
+import { auth } from '../config/firebaseConfig';
 
 
 
@@ -28,10 +30,16 @@ function RootLayout() {
 function LayoutContent() {
   const location = useLocation();
   const { openGetStarted, setOpenGetStarted } = useModal();
-  const { user, userDetail } = useAuth();
+  const { user, userDetail, error } = useAuth();
   const name = user?.displayName || userDetail?.displayName || "A Reader or Author";
   
   useEffect(()=>{
+    if(error) toast.error(error?.message);
+   
+  },[error])
+ 
+  useEffect(()=>{
+    if(error) toast.error(error?.message);
     user && toast.success(`Logged in as ${name}`);
   },[name])
   const showFloatingButton = location.pathname !== '/admin/form';

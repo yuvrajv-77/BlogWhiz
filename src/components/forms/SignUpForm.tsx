@@ -1,25 +1,31 @@
 
-import { Link } from 'react-router';
-import useAuth from '../hooks/useAuth';
-import { AiOutlineClose, AiOutlineLeft } from 'react-icons/ai';
-import { GetStartedContext } from '../contexts/GetStarted';
 import { useContext } from 'react';
+import useAuth from '../../hooks/useAuth';
+import { AiOutlineClose, AiOutlineLeft } from 'react-icons/ai';
+import { GetStartedContext } from '../../contexts/GetStarted';
 
-const SignInForm = () => {
-    const { loading, error, email, setEmail, password, setPassword, handleEmailAccountLogin} = useAuth();
-    const { setOpenGetStarted, showSignIn, setShowSignIn} = useContext(GetStartedContext)
+const SignUpForm = () => {
+    const { loading, error, name, setName, email, setEmail, password, setPassword, handleEmailAccountCreation} = useAuth();
+    const { setOpenGetStarted, showSignUp, setShowSignUp, } = useContext(GetStartedContext)
 
     const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        handleEmailAccountLogin();
+        handleEmailAccountCreation();
     }
     return (
         <div className='flex  flex-col gap-4 '>
             <span className='absolute right-8 hover:bg-gray-200 rounded-full top-8 cursor-pointer p-3' onClick={() => setOpenGetStarted(false)}><AiOutlineClose size={21}   /></span>
-            {showSignIn && <span className='absolute left-8 top-8 hover:bg-gray-200 rounded-full  cursor-pointer p-3 'onClick={() => setShowSignIn(false)} ><AiOutlineLeft size={21}  /></span>}
-            <h1 className='text-center text-4xl font-logo font-bold mb-14'>Sign In with email.</h1>
-            <form className=' text-sm flex flex-col gap-y-2' action="" onSubmit={handleFormSubmit} >
-               
+            {showSignUp && <span className='absolute left-8 top-8 hover:bg-gray-200 rounded-full  cursor-pointer p-3' onClick={() => setShowSignUp(false)}><AiOutlineLeft size={21}   /></span>}
+            <h1 className='text-center text-4xl font-logo font-bold mb-14'>Sign up with email.</h1>
+            <form className=' text-sm space-y-4' action="" onSubmit={handleFormSubmit} >
+                <div className=' space-y-3'>
+                    <p>Name</p>
+                    <input className='bg-gray-100 font-blog rounded-md w-[20rem] p-3 text-md '
+                        placeholder='Enter Your Name'
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        type="text" />
+                </div>
                 <div className=' space-y-3'>
                     <p>Email</p>
                     <input className='bg-gray-100 font-blog rounded-md w-[20rem] p-3 text-md '
@@ -36,7 +42,6 @@ const SignInForm = () => {
                         onChange={(e) => setPassword(e.target.value)}
                         type="password" />
                 </div>
-                <Link className='text-xs text-gray-600 hover:text-black text-right ' onClick={() => setOpenGetStarted(false)} to='/forgotPassword'>Forgot Password ?</Link>
 
                 <p className='text-center text-red-400'>{error?.message}</p>
                 <div>
@@ -46,7 +51,7 @@ const SignInForm = () => {
                             <div className="animate-spin inline-block size-6 border-[3px] border-current border-t-transparent text-white rounded-full" role="status" aria-label="loading">
                                 <span className="sr-only">Loading...</span>
                             </div>
-                        ) : "Sign In"}
+                        ) : "Create Account"}
                     </button>
                 </div>
                 
@@ -56,4 +61,4 @@ const SignInForm = () => {
     )
 }
 
-export default SignInForm
+export default SignUpForm

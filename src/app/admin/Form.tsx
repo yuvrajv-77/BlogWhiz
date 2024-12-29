@@ -21,6 +21,8 @@ const Form = () => {
 	const [body, setBody] = useState('')
 	const [publishing, setPublishing] = useState(false)
 	const [success, setSuccess] = useState(false)
+	const [textAreaHeight, setTextAreaHeight] = useState('auto');
+	const textAreaRef = useRef<HTMLTextAreaElement>(null);
 	
 	const { user, userDetail } = useAuth()
 	const navigate = useNavigate()
@@ -50,23 +52,6 @@ const Form = () => {
 	const formats = ["header", "bold", "italic", "underline", "strike", "blockquote",
 		"list", "bullet", "indent", "link", "image", "color", "clean",
 	];
-
-
-
-
-	const textareaRef = useRef(null);
-	// Function to adjust textarea height based on content
-	// const adjustTextareaHeight = () => {
-	// 	const textarea = textareaRef.current;
-	// 	textarea.style.height = 'auto'; // Reset height
-	// 	textarea.style.height = `${textarea.scrollHeight}px`; // Set height to the scroll height
-	// };
-
-	// useEffect(() => {
-	// 	adjustTextareaHeight(); // Adjust height on component mount/update
-	// }, [title]);
-
-
 
 
 	const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -148,16 +133,20 @@ const Form = () => {
 					{/* title */}
 					<div className=' '>
 						<textarea
-							// type="text" 
-							// rows='1'
-							// onInput={adjustTextareaHeight} // Adjust height on input
-							ref={textareaRef}
-							minLength={30}
+						ref={textAreaRef}
+							maxLength={150}
 							value={title}
 							required
-							onChange={(e) => setTitle(e.target.value)}
+							rows={1}
+							onChange={(e) => {
+								setTitle(e.target.value);
+								if (textAreaRef.current) {
+                                    textAreaRef.current.style.height = 'auto';
+                                    textAreaRef.current.style.height = `${textAreaRef.current.scrollHeight}px`;
+                                }
+							}}
 							placeholder='Title of Blog'
-							className='p-2  text-2xl md:text-3xl w-full resize-none  font-blog font-semibold border-l-gray-200 border-l-2 outline-none overflow-hidden placeholder:text-gray-400 placeholder:font-light'
+							className='resize-none p-2 text-2xl md:text-3xl w-full font-blog font-semibold border-l-gray-200 border-l-2 outline-none  placeholder:text-gray-400 placeholder:font-light'
 						/>
 					</div>
 					{/* summary */}
@@ -166,6 +155,7 @@ const Form = () => {
 							type="text"
 							value={summary}
 							required
+							maxLength={80}
 							// onInput={adjustTextareaHeight} // Adjust height on input
 							// ref={textareaRef}
 							onChange={(e) => setSummary(e.target.value)}
@@ -174,20 +164,18 @@ const Form = () => {
 						/>
 					</div>
 
-					<div className=' flex items-center justify-center h-44 bg-gray-100 relative'>
+					<div className=' flex items-center justify-center h-44 rounded-xl bg-gray-100 relative'>
 						{selectedFile ? (
-							<div className=''>
-								<img src={previewUrl || undefined} className='h-44 w-screen object-cover' alt="" />
-								<ButtonPrimary className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2' onClick={() => setSelectedFile(null)}><PiTrash /></ButtonPrimary>
+							<div className='group'>
+								<img src={previewUrl || undefined} className='h-44 w-screen rounded-xl object-cover group-hover:blur-sm transition-all ease-in-out duration-500' alt="" />
+								<ButtonPrimary className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ' onClick={() => setSelectedFile(null)}><PiTrash /></ButtonPrimary>
 							</div>
 						) : (
-							<div className='flex flex-col items-cente gap-3 '>
-
+							<div className='flex flex-col gap-3 '>
 								<input
 									type="file"
 									accept="image/*"
 									onChange={handleFileSelect}
-									
 									className="hidden"
 									id="file-upload" />
 								<label
@@ -209,7 +197,7 @@ const Form = () => {
 					{/* body */}
 					<div className='selection:bg-yellow-200 '>
 
-						<ReactQuill
+						{/* <ReactQuill
 							modules={modules}
 							formats={formats} className='min-h-[30rem] text-lg'
 							value={body}
@@ -217,7 +205,7 @@ const Form = () => {
 							// ref={quillRef}
 							theme='snow'
 							placeholder='Tell Your Story. . . . .'
-							onChange={(e) => setBody(e)} />
+							onChange={(e) => setBody(e)} /> */}
 
 
 					</div>

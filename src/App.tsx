@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { RouterProvider } from 'react-router-dom';
 import { createBrowserRouter } from "react-router-dom";
 import AuthContextProvider from './contexts/AuthContext';
@@ -13,10 +13,16 @@ import NewPassword from './app/forgotPassword/NewPassword';
 import ProtectedRoutes from './components/ProtectedRoutes';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { getRedirectResult } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
+import { auth, db } from './config/firebaseConfig';
 
 
 
 function App(): React.ReactElement {
+
+ 
+
 
   const router = createBrowserRouter(
     [

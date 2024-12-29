@@ -8,11 +8,11 @@ export interface Blog {
   authorName: string;
   imageUrl: string;
   likes: string[]; // Array of userIds who liked the post
-  comments: Comment[];
+  comments: BlogComment[];
 }
 
 
-export interface Comment {
+export interface BlogComment {
   id: string;
   userId: string;
   userName: string;

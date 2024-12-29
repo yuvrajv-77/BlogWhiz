@@ -9,8 +9,8 @@ const AdminPanel = () => {
   const name =
     user?.displayName || userDetail?.displayName || "A Reader or Author";
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(
-    profileImage || null
+  const [previewUrl, setPreviewUrl] = useState<string | undefined>(
+    profileImage || undefined
   );
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -118,7 +118,7 @@ const AdminPanel = () => {
                   <input
                     type="text"
                     className="bg-gray-100 font-blog rounded-md w-[25rem] p-3 text-md "
-                    value={user.email}
+                    value={user.email || ''}
                     disabled
                   />
                 </div>
@@ -191,5 +191,4 @@ const AdminPanel = () => {
     </div>
   );
 };
-
 export default AdminPanel;

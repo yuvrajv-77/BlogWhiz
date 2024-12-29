@@ -6,12 +6,12 @@ interface DropdownItem {
   url: string;
   onClick?: () => void;
   icon: React.ReactNode;
-  color: string;
+  color?: string ;
 }
 
 interface DropdownProps {
   items: DropdownItem[];
-  buttonText: string;
+  buttonText: string | React.ReactNode;
   onSelect?: (item: DropdownItem) => void;
 }
 

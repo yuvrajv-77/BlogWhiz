@@ -8,10 +8,12 @@ import {
 import { FcGoogle } from "react-icons/fc";
 import useAuth from "../hooks/useAuth";
 import { useNavigate } from "react-router";
-import SignUpForm from "../components/SignUpForm";
-import SignInForm from "../components/SignInForm";
+import SignUpForm from "../components/forms/SignUpForm";
+import SignInForm from "../components/forms/SignInForm";
 import { GetStartedContext } from "../contexts/GetStarted";
-import toast, { Toaster } from "react-hot-toast";
+import { getRedirectResult } from "firebase/auth";
+import { auth } from "../config/firebaseConfig";
+
 
 const GetStartedModal = () => {
   const { user, handlesignInWithGoogle, handlesignInWithGithub } = useAuth();
@@ -33,6 +35,7 @@ const GetStartedModal = () => {
       navigate("/");
     }
   }, [user, navigate]);
+  
   return (
     <div className="flex justify-center size-full  md:size-[678px] py-20 items-center bg-white border top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 fixed">
       {/* for sign up */}

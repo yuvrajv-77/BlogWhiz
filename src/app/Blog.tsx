@@ -4,22 +4,23 @@ import { useContext, useEffect, useState } from 'react';
 import { getBlogById, toggleLike } from '../services/blogServices';
 import { parse } from 'node-html-parser';
 import useAuth from '../hooks/useAuth';
-import { GoHeart, GoHeartFill } from 'react-icons/go';
+import { GoHeart, GoHeartFill, GoShare } from 'react-icons/go';
 import { BiMessageSquareDetail } from 'react-icons/bi';
 import toast, { Toaster } from 'react-hot-toast';
 import CommentBox from '../components/CommentBox';
 import { GetStartedContext } from '../contexts/GetStarted';
+import { PiShareFat, PiShareFatLight } from 'react-icons/pi';
 
-const contentInnerHtml:string = '[&_h1]:text-3xl ' +
-               ' [&_h1]:font-bold '+
-                '[&_h1]:mb-3 '+
-               ' [&_h2]:text-2xl ' +
-                '[&_h2]:font-semibold '+
-                '[&_h2]:mb-2 '+
-                '[&_p]:md:text-xl '+
-                '[&_p]:text-normal '+
-               ' [&_img]:mx-auto '+
-                '[&_img]:my-4 '
+const contentInnerHtml: string = '[&_h1]:text-3xl ' +
+    ' [&_h1]:font-bold ' +
+    '[&_h1]:mb-3 ' +
+    ' [&_h2]:text-2xl ' +
+    '[&_h2]:font-semibold ' +
+    '[&_h2]:mb-2 ' +
+    '[&_p]:md:text-xl ' +
+    '[&_p]:text-normal ' +
+    ' [&_img]:mx-auto ' +
+    '[&_img]:my-4 '
 const Blog = () => {
 
     const { id } = useParams<{ id: string }>();
@@ -28,7 +29,7 @@ const Blog = () => {
     const [loading, setLoading] = useState(true);
     const [isLiked, setIsLiked] = useState(false);
     const [commentBoxOpen, setCommentBoxOpen] = useState(false)
-    const {setOpenGetStarted} = useContext(GetStartedContext);
+    const { setOpenGetStarted } = useContext(GetStartedContext);
 
     // this method returns the whole promise
     // useEffect(() => {
@@ -62,32 +63,41 @@ const Blog = () => {
     }, [blog, user]);
 
     const handleLike = async () => {
-        if (!user) setOpenGetStarted(true);
+        if (!user) {setOpenGetStarted(true); return}
 
         // Call Firestore update
-        await toggleLike(id as string, user.uid);
+        await toggleLike(id as string, user?.uid ?? '');
 
         // Update local UI state
         setIsLiked(!isLiked);
-        toast.success('Blog Liked',{icon: '♥️'});
         
+
         // Update blog state immediately
         setBlog((prev: any) => {
             if (!prev) return prev; // Ensure prev is not null or undefined
-    
-            const isAlreadyLiked = prev.likes.includes(user.uid);
+
+            const isAlreadyLiked = prev.likes.includes(user?.uid);
             const updatedLikes = isAlreadyLiked
-                ? prev.likes.filter((id: string) => id !== user.uid) // Remove like
-                : [...prev.likes, user.uid]; // Add like
-    
+                ? prev.likes.filter((id: string) => id !== user?.uid) // Remove like
+                : [...prev.likes, user?.uid]; // Add like
             return {
                 ...prev,
                 likes: updatedLikes
             };
         });
-          
     };
 
+    const handleShare = async () => {
+        const blogUrl = window.location.href;
+        try {
+            await navigator.clipboard.writeText(blogUrl);
+            toast('Blog URL Copied!',{
+                icon: '📋',
+            });
+        } catch (err) {
+            toast.error('Failed to copy URL');
+        }
+    };
 
     const formatDate = (dateString: string) => {
         const date = new Date(dateString);
@@ -119,7 +129,7 @@ const Blog = () => {
         )
     }
 
-    
+
     return (
         <div className='px-7 lg:px-0 md:px-10 lg:max-w-[50rem] mt-7 mx-auto '>
             <div className=''>
@@ -138,24 +148,27 @@ const Blog = () => {
                         <span className='flex items-center gap-2 cursor-pointer' onClick={handleLike} >
                             {
                                 isLiked ? <GoHeartFill size={21} color='red' /> :
-                                    <GoHeart size={20} color='gray'  />
+                                    <GoHeart size={20} color='gray' />
                             }
                             <p className='text-sm text-gray-600 font-blog'>{blog?.likes.length}</p>
                         </span>
                         <span className='flex items-center gap-2 cursor-pointer' onClick={() => {
-                            setCommentBoxOpen(!commentBoxOpen); 
+                            setCommentBoxOpen(!commentBoxOpen);
                             if (!user) {
                                 setOpenGetStarted(true);
                                 return;
                             }
-                            }} >
-                            <BiMessageSquareDetail size={20} color='gray'/>
+                        }} >
+                            <BiMessageSquareDetail size={20} color='gray' />
                             <p className='text-sm text-gray-600 font-blog'>{blog?.comments.length}</p>
+                        </span>
+                        <span className='flex items-center gap-2 cursor-pointer' onClick={handleShare } >
+                            <PiShareFat size={20} color='gray' />
                         </span>
                     </div>
                 </div>
             </div>
-            
+
             <div className='mt-10 w-full block'>
                 <img src={blog?.imageUrl} className='h-[12rem] md:h-[30rem] w-full object-cover rounded-2xl' alt="" />
             </div>
@@ -166,10 +179,10 @@ const Blog = () => {
                     {renderContent()}
                 </p>
             </div>
-            <Toaster/>
-            
-            {user && commentBoxOpen && <CommentBox setCommentBoxOpen={setCommentBoxOpen} commentBoxOpen={commentBoxOpen} blogId={id}/>}
-       
+            <Toaster />
+
+            {user && commentBoxOpen && <CommentBox setCommentBoxOpen={setCommentBoxOpen} commentBoxOpen={commentBoxOpen} blogId={id as string} />}
+
         </div>
     )
 }

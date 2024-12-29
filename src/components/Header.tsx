@@ -1,6 +1,6 @@
 import { PiNotePencilLight } from "react-icons/pi";
 
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import useAuth from "../hooks/useAuth";
 import { Link } from "react-router";
 import { useNavigate } from "react-router";
@@ -9,7 +9,6 @@ import ButtonPrimary from "./ButtonPrimary";
 import useModal from "../hooks/useModal";
 import toast, { Toaster } from "react-hot-toast";
 import Dropdown from "./Dropdown";
-import DropdownItem from "./DropdownItem";
 import { AiOutlineUser } from "react-icons/ai";
 import { IoMdLogOut } from "react-icons/io";
 

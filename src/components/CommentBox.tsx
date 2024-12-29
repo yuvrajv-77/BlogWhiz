@@ -1,31 +1,41 @@
 
 import { addCommentToFirestore, getBlogComments } from '../services/blogServices';
 import useAuth from '../hooks/useAuth';
-import { useContext, useEffect, useState } from 'react';
-import { Comment } from '../services/Blog.types';
+import { useRef, useState } from 'react';
+import { BlogComment } from '../services/Blog.types';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { AiOutlineClose } from 'react-icons/ai';
-import { GetStartedContext } from '../contexts/GetStarted';
 
-const CommentBox = ({ setCommentBoxOpen, commentBoxOpen, blogId }: { blogId: string, setCommentBoxOpen: React.Dispatch<React.SetStateAction<boolean>>, commentBoxOpen: boolean }) => {
+const CommentBox = ({ setCommentBoxOpen, blogId }: { blogId: string, setCommentBoxOpen: React.Dispatch<React.SetStateAction<boolean>>, commentBoxOpen: boolean }) => {
 
     const [commentInput, setCommentInput] = useState('');
     const { user, userDetail } = useAuth();
 
-    // const [comments, setComments] = useState([]);
-    const name = user?.displayName || userDetail?.displayName || "A Reader or Author";
 
+    const formatDate = (dateString: string) => {
+        const date = new Date(dateString);
+        const day = date.getDate().toString().padStart(2, '0');
+        const month = date.toLocaleString('en-US', { month: 'short' });
+        const year = date.getFullYear().toString();
+        return `${month} ${day}, ${year}`;
+    };
+    
+    const name = user?.displayName || userDetail?.displayName || "A Reader or Author";
+    const textAreaRef = useRef<HTMLTextAreaElement>(null);
     const queryClient = useQueryClient();
 
     // Query for fetching comments
-    const { data: comments = [] } = useQuery({
+    const { data, isPending } = useQuery({
         queryKey: ['comments', blogId],
         queryFn: () => getBlogComments(blogId),
     });
 
+    const sortedComments: BlogComment[] = data?.sort((a: BlogComment, b: BlogComment) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+
+
     // Mutation for adding new comments
     const addCommentMutation = useMutation({
-        mutationFn: ({ blogId, newComment }: { blogId: string, newComment: Comment }) =>
+        mutationFn: ({ blogId, newComment }: { blogId: string, newComment: BlogComment }) =>
             addCommentToFirestore(blogId, newComment),
         onSuccess: () => {
             // Invalidate and refetch comments
@@ -36,18 +46,19 @@ const CommentBox = ({ setCommentBoxOpen, commentBoxOpen, blogId }: { blogId: str
 
     const handleAddComment = async (blogId: string, content: string) => {
         if (!user || !commentInput.trim()) return;
-        const newComment: Comment = {
+        const newComment: BlogComment = {
             id: crypto.randomUUID(), // Generate unique ID
             userId: user.uid, // Get from auth context
             userName: name,
             content: content,
             createdAt: new Date().toISOString()
-        };
+        } ;
 
         addCommentMutation.mutate({ blogId, newComment });
 
         // await addCommentToFirestore(blogId, newComment);
         setCommentInput('');
+        
     };
 
     // const fetchComments = async (blogId: string) => {
@@ -59,6 +70,8 @@ const CommentBox = ({ setCommentBoxOpen, commentBoxOpen, blogId }: { blogId: str
     //     fetchComments(blogId);
     // }, [blogId]);
 
+    // First add this state for managing textarea height
+
     return (
         <div className='fixed inset-0 z-20 backdrop-blur-sm bg-black/30' onClick={(e) => {
             if (e.target === e.currentTarget) {
@@ -69,45 +82,81 @@ const CommentBox = ({ setCommentBoxOpen, commentBoxOpen, blogId }: { blogId: str
                 <div className='p-6'>
 
                     <div className='flex items-center justify-between'>
-                        <h2 className='text-xl font-bold'>{`Responses (${comments.length})`}</h2>
-                        <span className=" hover:bg-gray-200 rounded-full top-8 cursor-pointer p-1">
+                        <h2 className='text-xl font-bold'>{`Responses (${sortedComments?.length})`}</h2>
+                        <span className=" hover:bg-gray-200 rounded-full top-8 cursor-pointer p-1" onClick={() => setCommentBoxOpen(false)}>
                             <AiOutlineClose
                                 size={21}
-                                onClick={() => setCommentBoxOpen(false)}
                             />
                         </span>
                     </div>
 
                     <div className='flex flex-col gap-4 justify-center items-end my-5'>
-                        <input className='bg-gray-100 font-blog rounded-md w-full p-3 text-md '
+                        {/* <textarea
+                            className='bg-gray-100 font-blog rounded-md w-full p-3 text-md resize-none overflow-hidden'
                             placeholder='What are your thoughts ?'
                             value={commentInput}
-                            onChange={(e) => setCommentInput(e.target.value)}
-                            type="text" />
+                            onChange={(e) => {
+                                setCommentInput(e.target.value);
+                                // Reset height to auto to correctly calculate scroll height
+                                setTextAreaHeight('auto');
+                                // Set new height based on scroll height
+                                setTextAreaHeight(`${e.target.scrollHeight}px`);
+                            }}
+                            style={{ height: textAreaHeight }}
+                        /> */}
+                        <textarea
+                            ref={textAreaRef}
+                            className='bg-gray-100 font-blog rounded-md w-full p-3 text-md resize-none overflow-hidden'
+                            placeholder='What are your thoughts ?'
+                            value={commentInput}
+                            onChange={(e) => {
+                                setCommentInput(e.target.value);
+                                // Reset height
+                                if (textAreaRef.current) {
+                                    textAreaRef.current.style.height = 'auto';
+                                    textAreaRef.current.style.height = `${textAreaRef.current.scrollHeight}px`;
+                                }
+                            }}
+                            rows={1}
+                        />
                         <button
                             className='text-xs bg-black rounded-full text-white px-3 py-2 w-20 '
                             onClick={() => handleAddComment(blogId, commentInput)} disabled={addCommentMutation.isPending}>Respond
                         </button>
                     </div>
 
+                    {isPending && (
+                        <div className='space-y-10'>
+                            {[...Array(5)].map((_, index) => (
+                                <div key={index} className='space-y-3'>
+                                    <div className='flex items-center gap-4 w-full'>
+                                        <div className={`size-10 bg-gray-300 rounded-full animate-pulse`}></div>
+                                        <span className='bg-gray-300 rounded-xl h-4 w-[60%] animate-pulse'></span>
+                                    </div>
+                                    <div className='bg-gray-300 rounded-xl h-6 w-full animate-pulse'></div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
 
 
-                    {comments ? (
-                        comments.map((comment: Comment) => (
-                            <div className='border-b border-gray-300 mb-5'>
+                    {sortedComments?.length > 0 ? (
+                        sortedComments.map((comment: BlogComment, index) => (
+                            <div className='border-b border-gray-300 mb-5' key={index}>
                                 <div className='flex items-center gap-4 w-full'>
                                     <img src='/avatar.jpg' className={`size-6 md:size-10 object-cover rounded-full cursor-pointer`} alt="" />
                                     <span className='flex justify-between flex-col gap-1'>
                                         <p className='text-xs '>{comment.userName}</p>
+                                        <p className='text-xs text-gray-500'>{formatDate(comment.createdAt)}</p>
                                     </span>
                                 </div>
                                 <div className=''>
-                                    <p className='text-sm my-5 text-gray-700 font-blog'>{comment.content}</p>
+                                    <p className='text-sm my-5  font-blog font-medium'>{comment.content}</p>
                                 </div>
                             </div>
                         ))
                     ) : (
-                        <p>No comments yet</p>
+                        <p className='text-center font-blog mt-10'>No comments yet</p>
                     )}
 
 

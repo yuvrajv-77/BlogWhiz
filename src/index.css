@@ -5,6 +5,25 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+::-webkit-scrollbar {
+  width: 6px; /* Width of the entire scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: #131313;
+  display:none;
+  border-radius: 6px; /* Color of the track (the area behind the thumb) */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #bebebe; /* Color of the scrollbar thumb */
+  border-radius: 6px; /* Radius of the thumb corners */
+  
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #8f8f8f; /* Color of the thumb on hover */
+}
 
 .font-brand{
   font-family: "Montserrat", serif;
@@ -16,13 +35,11 @@
   font-family: 'Forum', serif;
 }
 
-.ql-toolbar{
-  /* border-radius: none;  */
-  /* background-color: black; */
+/* .ql-toolbar{
+  border-radius: none;  
+   background-color: black;
  
-  
-  
-}
+} */
 
 .ql-editor{
   font-family: 'Questrial', serif;

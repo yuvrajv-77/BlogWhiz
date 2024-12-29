@@ -1,7 +1,5 @@
 
 import { Link } from 'react-router';
-// import { Blog } from '../Blog.types'/
-import useAuth from '../hooks/useAuth';
 import { GoHeart } from 'react-icons/go';
 import { BiMessageSquareDetail } from 'react-icons/bi';
 import { Blog } from '../services/Blog.types';

@@ -9,15 +9,19 @@ import {
     signInWithPopup,
     signOut,
     sendPasswordResetEmail,
-    confirmPasswordReset
+    confirmPasswordReset,
+    signInWithRedirect,
+    getRedirectResult,
+    getAdditionalUserInfo
 } from "firebase/auth";
 import { useEffect, useState, createContext } from "react";
 import { auth, db } from "../config/firebaseConfig";
 import { doc, DocumentData, getDoc, setDoc } from "firebase/firestore";
+import toast from "react-hot-toast";
 
 
 interface AuthContextType {
-    
+
     user: User | null;
     userDetail: DocumentData | undefined;
     loading: boolean;
@@ -50,7 +54,9 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
     const [name, setName] = useState('');
     const [isSending, setIsSending] = useState(false);
 
-    const handleEmailAccountCreation = async () => { 
+
+
+    const handleEmailAccountCreation = async () => {
         // this func creates a new account with email and password 
         // and after creating a new account it will immediately create 
         // a new document in the users collection with the id of the newly created user
@@ -83,6 +89,7 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
     }
 
     const handlesignInWithGoogle = async () => {
+
         if (loading) return;
         setLoading(true);
         try {
@@ -95,6 +102,7 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
         }
     }
 
+
     const handlesignInWithGithub = async () => {
         if (loading) return;
         setLoading(true);
@@ -106,18 +114,20 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
         } finally {
             setLoading(false);
         }
+
     }
 
     const handleLogout = async () => {
         try {
             await signOut(auth);
+            toast.success('Logged out successfully');
         } catch (err) {
             setError(err instanceof Error ? err : new Error('Failed to logout'));
         }
     }
 
     const forgotPassword = async () => {
-        
+
         try {
             await sendPasswordResetEmail(auth, email);
             setIsSending(true);
@@ -138,17 +148,33 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
 
     // check if user is logged in
     useEffect(() => {
+        setLoading(true);
+        //  async () => {
+        //     try {
+        //         const result = await getRedirectResult(auth);
+        //         if (result) {
+        //             const user = result.user;
+        //             console.log('Redirect result user:', user);
+    
+        //             const additionalInfo = getAdditionalUserInfo(result);
+        //             console.log('Additional user info:', additionalInfo);
+        //         }
+        //     } catch (error) {
+        //         console.error('Error fetching redirect result:', error);
+        //     }
+        // };
+    // Listen to auth state changes
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser);
             setError(null);
             setLoading(false);
         });
-
+   
         return () => unsubscribe();
     }, []);
 
     // get userDetail from users collection from db usng logged in user's uid
-    async function getUserFromDb(uid: string)  {
+    async function getUserFromDb(uid: string) {
         try {
             const docSnap = await getDoc(doc(db, "users", uid));
             setUserDetail(docSnap.data());
@@ -159,9 +185,11 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
 
     useEffect(() => {
         if (user) {
-           getUserFromDb(user.uid);
+            getUserFromDb(user.uid);
         }
     }, [user])
+
+
 
     console.log("User: ", user);
     console.log("UserDetail: ", userDetail);
