@@ -29,7 +29,7 @@ const Home = () => {
         queryFn: getBlogsFromFirestore,
     })
 
-    const sortedBlogs: Blog[] = data?.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    const sortedBlogs: Blog[] = data ? data.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()) : [];
 
     // useEffect(() => {
     //   const fetchBlogs = async () => {
@@ -63,87 +63,139 @@ const Home = () => {
 
     return (
         <div className='px-5 lg:px-0 md:px-4 lg:max-w-[55rem] mx-auto'>
-            {/* <div className='py-2 border-b-2'>
-        Tech | News | Sports
-      </div> */}
+
+
+
 
             <div className=' '>
 
-                {/* first blog here */}
+
                 {isPending ? <Skeleton /> : (
-                    <Link to={`/blog/${sortedBlogs[0]?.id}`}>
-                        <div className='flex md:border-b group border-gray-200 py-5 gap-8 md:flex-row flex-row-reverse cursor-pointer'>
-                            <img src={sortedBlogs[0]?.imageUrl} className='w-[12rem] h-[4rem] md:w-[20rem] md:h-[13rem] lg:w-[28rem] lg:h-[17rem] rounded-xl md:rounded-2xl object-cover' alt="" />
-                            <div className='flex flex-col justify-between gap-4 md:gap-0'>
-                                <h1 className='text-lg md:text-3xl lg:text-3xl leading-5 font-brand font-extrabold tracking-tight group-hover:underline'>{sortedBlogs[0]?.title}</h1>
-                                <h3 className='text-sm md:text-xl text-gray-500 line-clamp-2 font-blog lg:line-clamp-3 '> {sortedBlogs[0]?.summary}</h3>
 
-                                <div className='md:flex items-center justify-between mt-2 hidden w-full '>
-                                    <div className='flex items-center gap-4'>
-                                        <img src='/avatar.jpg' className={`size-6 md:size-10 object-cover rounded-full cursor-pointer`} alt="" />
-                                        <span className='flex justify-between flex-col gap-1'>
-                                            <p className='text-xs'>{sortedBlogs[0]?.authorName}</p>
-                                            <p className='text-xs text-gray-500'>{formatDate(sortedBlogs[0]?.createdAt)}</p>
-                                        </span>
-                                    </div>
-                                    <div className='flex items-center gap-4 '>
-                                        <span className='flex items-center gap-2 cursor-pointer'  >
-                                            <GoHeart size={20} color='gray' />
-                                            <p className='text-sm font-blog'>{sortedBlogs[0]?.likes.length}</p>
-                                        </span>
-                                        <span className='flex items-center gap-2'>
-                                            {
-                                                <BiMessageSquareDetail size={20} color='gray' />
-                                            }
-                                            <p className='text-sm font-blog'>{sortedBlogs[0]?.comments.length}</p>
-                                        </span>
 
+
+
+
+
+                    sortedBlogs.length > 0 && (
+                        <Link to={`/blog/${sortedBlogs[0]?.id}`}>
+                            <div className='flex md:border-b group border-gray-200 py-5 gap-8 md:flex-row flex-row-reverse cursor-pointer'>
+                                <img src={sortedBlogs[0]?.imageUrl} className='w-[12rem] h-[4rem] md:w-[20rem] md:h-[13rem] lg:w-[28rem] lg:h-[17rem] rounded-xl md:rounded-2xl object-cover' alt="" />
+                                <div className='flex flex-col justify-between gap-4 md:gap-0'>
+                                    <h1 className='text-lg md:text-3xl lg:text-3xl leading-5 font-brand font-extrabold tracking-tight group-hover:underline'>{sortedBlogs[0]?.title}</h1>
+                                    <h3 className='text-sm md:text-xl text-gray-500 line-clamp-2 font-blog lg:line-clamp-3 '> {sortedBlogs[0]?.summary}</h3>
+
+
+
+
+
+
+
+
+                                    <div className='md:flex items-center justify-between mt-2 hidden w-full '>
+                                        <div className='flex items-center gap-4'>
+                                            <img src='/avatar.jpg' className={`size-6 md:size-10 object-cover rounded-full cursor-pointer`} alt="" />
+                                            <span className='flex justify-between flex-col gap-1'>
+                                                <p className='text-xs'>{sortedBlogs[0]?.authorName}</p>
+                                                <p className='text-xs text-gray-500'>{formatDate(sortedBlogs[0]?.createdAt)}</p>
+                                            </span>
+                                        </div>
+                                        <div className='flex items-center gap-4 '>
+                                            <span className='flex items-center gap-2 cursor-pointer'  >
+                                                <GoHeart size={20} color='gray' />
+                                                <p className='text-sm font-blog'>{sortedBlogs[0]?.likes.length}</p>
+                                            </span>
+                                            <span className='flex items-center gap-2'>
+                                                {
+                                                    <BiMessageSquareDetail size={20} color='gray' />
+                                                }
+                                                <p className='text-sm font-blog'>{sortedBlogs[0]?.comments.length}</p>
+                                            </span>
+
+                                        </div>
                                     </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                </div>
+
+                            </div>
+                            <div className='flex items-center justify-between md:hidden w-full border-b pb-5'>
+                                <div className='flex items-center gap-4'>
+                                    <img src='/avatar.jpg' className={`size-6 md:size-10 object-cover rounded-full cursor-pointer`} alt="" />
+                                    <span className='flex justify-between flex-col gap-1'>
+                                        <p className='text-xs'>{sortedBlogs[0]?.authorName}</p>
+                                        <p className='text-xs text-gray-500'>{formatDate(sortedBlogs[0]?.createdAt)}</p>
+                                    </span>
+                                </div>
+                                <div className='flex items-center gap-4 '>
+                                    <span className='flex items-center gap-2 cursor-pointer'  >
+                                        <GoHeart size={19} color='gray' />
+                                        <p className='text-sm font-blog'>{sortedBlogs[0]?.likes.length}</p>
+                                    </span>
+                                    <span className='flex items-center gap-2'>
+                                        <BiMessageSquareDetail size={19} color='gray' />
+                                        <p className='text-sm font-blog'>{sortedBlogs[0]?.comments.length}</p>
+                                    </span>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                                 </div>
 
                             </div>
 
-                        </div>
-                        <div className='flex items-center justify-between md:hidden w-full border-b pb-5'>
-                            <div className='flex items-center gap-4'>
-                                <img src='/avatar.jpg' className={`size-6 md:size-10 object-cover rounded-full cursor-pointer`} alt="" />
-                                <span className='flex justify-between flex-col gap-1'>
-                                    <p className='text-xs'>{sortedBlogs[0]?.authorName}</p>
-                                    <p className='text-xs text-gray-500'>{formatDate(sortedBlogs[0]?.createdAt)}</p>
-                                </span>
-                            </div>
-                            <div className='flex items-center gap-4 '>
-                                <span className='flex items-center gap-2 cursor-pointer'  >
-                                    <GoHeart size={19} color='gray' />
-                                    <p className='text-sm font-blog'>{sortedBlogs[0]?.likes.length}</p>
-                                </span>
-                                <span className='flex items-center gap-2'>
-                                    <BiMessageSquareDetail size={19} color='gray' />
-                                    <p className='text-sm font-blog'>{sortedBlogs[0]?.comments.length}</p>
-                                </span>
 
-                            </div>
 
-                        </div>
-                    </Link>
+                        </Link>
+                    )
                 )}
 
 
                 {isPending ? <Skeleton /> :
                     <div className='grid md:grid-cols-2 justify-between md:gap-y-6 md:gap-x-10 md:border-b border-gray-200 relative'>
-                        <Gridblog blog={sortedBlogs[1]} />
-                        {/* <div className="hidden md:block absolute h-[85%] w-[1px] top-[8%] bg-gray-200 left-1/2 transform -translate-x-1/2"></div> */}
-                        <Gridblog blog={sortedBlogs[2]} />
 
+
+
+
+                        {sortedBlogs.length > 1 && <Gridblog blog={sortedBlogs[1]} />}
+                        {sortedBlogs.length > 2 && <Gridblog blog={sortedBlogs[2]} />}
                     </div>
                 }
 
-                {sortedBlogs?.slice(3).map((blog, index) => (
+
+                {sortedBlogs.slice(3).map((blog, index) => (
                     <Singleblog blog={blog} key={index} />
                 ))}
 
             </div>
         </div >
     )
+
 }
 export default Home
