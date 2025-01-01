@@ -140,12 +140,13 @@ const Blog = () => {
     return (
         <div className='px-7 lg:px-0 md:px-10 lg:max-w-[50rem] mt-7 mx-auto '>
             <div className=''>
+                <p className='text-md mb-2 text-gray-500 font-blog antialiased'>{blog?.tags?.map((tag: string) => `#${tag}  `)}</p>
                 <h1 className='text-2xl md:text-4xl lg:text-4xl font-extrabold font-brand tracking-tight md:tracking-normal'>{blog?.title}</h1>
                 <p className='text-md md:text-xl text-gray-500 tracking-tight mt-4'>{blog?.summary}</p>
 
                 <div className='flex justify-between py-7 items-center border-b'>
                     <div className='flex items-center gap-4  w-full'>
-                        <img src='/avatar.jpg' className='size-10 rounded-full object-cover ' alt="" />
+                        <img src={blog?.authorImg || "/default-avatar.png"} className='size-10 rounded-full object-cover ' alt="" />
                         <span className='flex justify-between flex-col gap-1'>
                             <p className='text-sm md:text-base '>{blog?.authorName}</p>
                             <p className='text-xs text-gray-500'>{formatDate(blog?.createdAt)}</p>

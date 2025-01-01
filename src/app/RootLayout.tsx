@@ -35,13 +35,13 @@ function LayoutContent() {
   
   useEffect(()=>{
     if(error) toast.error(error?.message);
-   
   },[error])
  
   useEffect(()=>{
     if(error) toast.error(error?.message);
     user && toast.success(`Logged in as ${name}`);
   },[name])
+  
   const showFloatingButton = location.pathname !== '/admin/form';
   return (
     <>

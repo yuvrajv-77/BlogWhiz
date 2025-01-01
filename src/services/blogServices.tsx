@@ -8,7 +8,7 @@ export const getBlogsFromFirestore = async () => {
 
   try {
     const blogCollectionRef = collection(db, 'blogs');
-    const querySnapshot = await getDocs(blogCollectionRef);
+    const querySnapshot = (await getDocs(blogCollectionRef));
     const allBlogs = querySnapshot.docs.map(doc => (  // dont use forEach
       // console.log(doc.id, doc.data())
       {
@@ -19,6 +19,7 @@ export const getBlogsFromFirestore = async () => {
         userId: doc.data().userId,
         createdAt: doc.data().createdAt,
         authorName: doc.data().authorName,
+        authorImg: doc.data().authorImg,
         likes: doc.data().likes,
         imageUrl: doc.data().imageUrl,
         comments: doc.data().comments
@@ -65,6 +66,7 @@ export const getUserBlogsFromFirestore = async (userId: string) => {
         userId: doc.data().userId,
         createdAt: doc.data().createdAt,
         authorName: doc.data().authorName,
+        authorImg: doc.data().authorImg,
         likes: doc.data().likes,
         imageUrl: doc.data().imageUrl,
         comments: doc.data().comments

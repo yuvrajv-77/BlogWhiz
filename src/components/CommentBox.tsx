@@ -50,6 +50,7 @@ const CommentBox = ({ setCommentBoxOpen, blogId }: { blogId: string, setCommentB
             id: crypto.randomUUID(), // Generate unique ID
             userId: user.uid, // Get from auth context
             userName: name,
+            userImg: user.photoURL as string,
             content: content,
             createdAt: new Date().toISOString()
         } ;
@@ -144,7 +145,7 @@ const CommentBox = ({ setCommentBoxOpen, blogId }: { blogId: string, setCommentB
                         sortedComments.map((comment: BlogComment, index) => (
                             <div className='border-b border-gray-300 mb-5' key={index}>
                                 <div className='flex items-center gap-4 w-full'>
-                                    <img src='/avatar.jpg' className={`size-6 md:size-10 object-cover rounded-full cursor-pointer`} alt="" />
+                                    <img src={comment.userImg || "/default-avatar.png"} className={`size-6 md:size-10 object-cover rounded-full cursor-pointer`} alt="" />
                                     <span className='flex justify-between flex-col gap-1'>
                                         <p className='text-xs '>{comment.userName}</p>
                                         <p className='text-xs text-gray-500'>{formatDate(comment.createdAt)}</p>

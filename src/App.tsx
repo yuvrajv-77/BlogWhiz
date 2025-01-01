@@ -21,77 +21,77 @@ import { auth, db } from './config/firebaseConfig';
 
 function App(): React.ReactElement {
 
- 
+	const router = createBrowserRouter(
+		[
+			{
+				path: "/",
+				element: <RootLayout />,
+				children: [
+					{
+						index: true,
+						element: <Home />,
+					},
+					{
+						path: "/blog/:id",
+						element: <Blog />
+					},
+					{
 
+					},
+					{
+						element: <ProtectedRoutes />,
+						children: [
+							{
+								path: "/admin",
+								children: [
+									{
+										path: "dashboard",
+										element: <Dashboard />,
+									},
+									{
+										path: "form",
+										element: <Form />,
+									}
+								],
+							},
+						]
+					},
+					{
+						path: "forgotpassword",
+						element: <ForgotPassword />,
+					},
+					{
+						path: "forgotpassword/setnewpassword",
+						element: <NewPassword />,
+					},
 
-  const router = createBrowserRouter(
-    [
-      {
-        path: "/",
-        element: <RootLayout />,
-        children: [
-          {
-            index: true,
-            element: <Home />,
-          },
-          {
-            path: "/blog/:id",
-            element: <Blog />
-          },
-          {
-            element: <ProtectedRoutes />,
-            children: [
-              {
-                path: "/admin",
-                children: [
-                  {
-                    path: "dashboard",
-                    element: <Dashboard />,
-                  },
-                  {
-                    path: "form",
-                    element: <Form />,
-                  }
-                ],
-              },
-            ]
-          },
-          {
-            path: "forgotpassword",
-            element: <ForgotPassword />,
-          },
-          {
-            path: "forgotpassword/setnewpassword",
-            element: <NewPassword />,
-          },
+				]
+			},
 
-        ]
-      },
+			// {
+			//   element: <ProtectedRoutes />,
+			//   children: [
+			//     {
+			//       path: "/app",
+			//       element: <Layout />,
+			//     },
+			//   ]
+			// },
+		]
+	)
 
-      // {
-      //   element: <ProtectedRoutes />,
-      //   children: [
-      //     {
-      //       path: "/app",
-      //       element: <Layout />,
-      //     },
-      //   ]
-      // },
-    ]
-  )
+	const queryClient = new QueryClient();
 
-  const queryClient = new QueryClient();
-
-  return (
-    <>
-      <AuthContextProvider>
-        <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-        </QueryClientProvider>
-      </AuthContextProvider>
-    </>
-  )
+	return (
+		<>
+			<AuthContextProvider>
+				<QueryClientProvider client={queryClient}>
+					<RouterProvider router={router} />
+					{/* <ReactQueryDevtools initialIsOpen={false} /> */}
+				</QueryClientProvider>
+			</AuthContextProvider>
+		</>
+	)
 }
 
 export default App

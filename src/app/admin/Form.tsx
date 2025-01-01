@@ -13,6 +13,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { uploadImage } from '../../services/storageServices';
 import { PiTrash } from 'react-icons/pi';
 import ButtonPrimary from '../../components/ButtonPrimary';
+import { AiOutlineClose } from 'react-icons/ai';
 
 const Form = () => {
 
@@ -21,12 +22,21 @@ const Form = () => {
 	const [body, setBody] = useState('')
 	const [publishing, setPublishing] = useState(false)
 	const [success, setSuccess] = useState(false)
-	const [textAreaHeight, setTextAreaHeight] = useState('auto');
 	const textAreaRef = useRef<HTMLTextAreaElement>(null);
-	
+
+	const [tagInput, setTagInput] = useState('');
+	const [selectedTags, setSelectedTags] = useState<string[]>([]);
+	const [suggestedTags] = useState([
+		'Technology', 'Programming', 'Politics',
+		'Books', 'Productivity', 'Health', 'Science',
+		'UI/UX', 'Entrepreneurship', 'Business', 'Life',
+		'Education', "Work", 'Travel', 'Fashion', 'Gaming',
+		'Art', 'Music', 'Food', 'Sports', 'Culture', 'Lifestyle'
+	]);
+
 	const { user, userDetail } = useAuth()
 	const navigate = useNavigate()
-
+	const [goPublish, setGoPublish] = useState(false)
 	const name = user?.displayName || userDetail?.displayName || "A Reader or Author";
 	const [selectedFile, setSelectedFile] = useState<File | null>(null);
 	const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -67,6 +77,26 @@ const Form = () => {
 		}
 	};
 
+	const handleTagInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setTagInput(e.target.value);
+	};
+
+	const addTag = (tag: string) => {
+		if (!selectedTags.includes(tag)) {
+			setSelectedTags([...selectedTags, tag]);
+		}
+		setTagInput('');
+	};
+
+	const removeTag = (tagToRemove: string) => {
+		setSelectedTags(selectedTags.filter(tag => tag !== tagToRemove));
+	};
+
+	const filteredTags = suggestedTags.filter(tag =>
+		tag.toLowerCase().includes(tagInput.toLowerCase()) &&
+		!selectedTags.includes(tag)
+	);
+
 	// Modify handleSubmit to handle both cases
 	const handleSubmit = async (e: { preventDefault: () => void; }) => {
 		e.preventDefault()
@@ -76,12 +106,13 @@ const Form = () => {
 
 		if (selectedFile) {
 			// If file is selected, upload it
+			setPublishing(true);
 			finalImageUrl = await uploadImage(selectedFile, "blog-images");
 		} else if (imageUrl) {
 			// If URL is pasted, use it directly
 			finalImageUrl = imageUrl;
 		} else {
-			toast.error('Please add an image or provide an image URL');
+
 			return;
 		}
 
@@ -90,15 +121,18 @@ const Form = () => {
 			title: title,
 			summary: summary,
 			body: body,
+			tags: selectedTags,
 			imageUrl: finalImageUrl,
 			userId: user?.uid as string,
 			createdAt: new Date().toISOString(),
 			authorName: name,
+			authorImg: user?.photoURL as string,
 			likes: [],
 			comments: [],
 		};
 
-		setPublishing(true);
+
+
 		try {
 			await addBlogToFirestore(blogData);
 			navigate('/admin/dashboard');
@@ -110,6 +144,8 @@ const Form = () => {
 		}
 		setPublishing(false);
 	};
+
+
 
 	return (
 		<div className='relative'>
@@ -123,7 +159,9 @@ const Form = () => {
 						</div>
 					</div>
 					<button className='bg-black py-2 px-4 text-white rounded-full hover:bg-white hover:text-black focus:ring focus:ring-gray-300 border-black border transition duration-100 ease-in-out'
-						type='submit'
+						onClick={() => {
+							title && summary && body ? setGoPublish(true) : toast.error('Please fill all the fields')
+						}}
 					>Publish</button>
 				</div>
 
@@ -133,17 +171,17 @@ const Form = () => {
 					{/* title */}
 					<div className=' '>
 						<textarea
-						ref={textAreaRef}
+							ref={textAreaRef}
 							maxLength={150}
 							value={title}
-							required
+
 							rows={1}
 							onChange={(e) => {
 								setTitle(e.target.value);
 								if (textAreaRef.current) {
-                                    textAreaRef.current.style.height = 'auto';
-                                    textAreaRef.current.style.height = `${textAreaRef.current.scrollHeight}px`;
-                                }
+									textAreaRef.current.style.height = 'auto';
+									textAreaRef.current.style.height = `${textAreaRef.current.scrollHeight}px`;
+								}
 							}}
 							placeholder='Title of Blog'
 							className='resize-none p-2 text-2xl md:text-3xl w-full font-blog font-semibold border-l-gray-200 border-l-2 outline-none  placeholder:text-gray-400 placeholder:font-light'
@@ -154,7 +192,7 @@ const Form = () => {
 						<input
 							type="text"
 							value={summary}
-							required
+
 							maxLength={80}
 							// onInput={adjustTextareaHeight} // Adjust height on input
 							// ref={textareaRef}
@@ -164,35 +202,7 @@ const Form = () => {
 						/>
 					</div>
 
-					<div className=' flex items-center justify-center h-44 rounded-xl bg-gray-100 relative'>
-						{selectedFile ? (
-							<div className='group'>
-								<img src={previewUrl || undefined} className='h-44 w-screen rounded-xl object-cover group-hover:blur-sm transition-all ease-in-out duration-500' alt="" />
-								<ButtonPrimary className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ' onClick={() => setSelectedFile(null)}><PiTrash /></ButtonPrimary>
-							</div>
-						) : (
-							<div className='flex flex-col gap-3 '>
-								<input
-									type="file"
-									accept="image/*"
-									onChange={handleFileSelect}
-									className="hidden"
-									id="file-upload" />
-								<label
-									htmlFor="file-upload"
-									className="bg-black py-2 text-center px-4 text-xs cursor-pointer text-white rounded-full hover:bg-white hover:text-black focus:ring focus:ring-gray-300 border-black border transition duration-100 ease-in-out"
-								>Add Thumbnail</label>
-								<input
-									type="text"
-									className="font-blog rounded-md w-44 p-3 text-xs "
-									value={imageUrl}
-									onChange={(e) => setImageUrl(e.target.value)}
-									placeholder='Or Paste Thumbnail URL'
-								/>
-							</div>
-						)}
 
-					</div>
 
 					{/* body */}
 					<div className='selection:bg-yellow-200 '>
@@ -210,9 +220,105 @@ const Form = () => {
 
 					</div>
 				</div>
+
+				{
+					title && summary && body && goPublish &&
+					<>
+						<div className="hidden md:fixed inset-0 bg-black/30 backdrop-blur-sm z-10"></div>
+						<div className=" size-full  md:size-[678px] p-10 md:p-20  bg-white border top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 fixed">
+							<div className='flex flex-col  h-full  gap-5'>
+								<span className=" hover:bg-gray-200 rounded-full self-end top-8 cursor-pointer p-3"
+									onClick={() => {setGoPublish(false); setSelectedFile(null); setPreviewUrl(null);setImageUrl(''),setSelectedTags([]);}}>
+									<AiOutlineClose size={21} />
+								</span>
+
+								<h1 className='text-lg font-semibold font-blog  line-clamp-2 text-center'>{title}</h1>
+								<h4 className='text-sm font-brand'>Thumbnail</h4>
+								<div className=' flex items-center justify-center w-full h-44 rounded-xl bg-gray-100 relative'>
+									{selectedFile ? (
+										<div className='group'>
+											<img src={previewUrl || undefined} className='h-44 w-screen rounded-xl object-cover group-hover:blur-sm transition-all ease-in-out duration-500' alt="" />
+											<ButtonPrimary className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ' onClick={() => setSelectedFile(null)}><PiTrash /></ButtonPrimary>
+										</div>
+									) : (
+										<div className='flex flex-col gap-3 '>
+											<input
+												type="file"
+												accept="image/*"
+												onChange={handleFileSelect}
+												className="hidden"
+												id="file-upload" />
+											<label
+												htmlFor="file-upload"
+												className="bg-black py-2 text-center px-4 text-xs cursor-pointer text-white rounded-full hover:bg-white hover:text-black focus:ring focus:ring-gray-300 border-black border transition duration-100 ease-in-out"
+											>Add Thumbnail</label>
+											<input
+												type="text"
+												className="font-blog rounded-md w-44 p-3 text-xs "
+												value={imageUrl}
+												onChange={(e) => setImageUrl(e.target.value)}
+												placeholder='Or Paste Thumbnail URL'
+											/>
+										</div>
+									)}
+								</div>
+
+								{/* tags */}
+								<div className='w-full'>
+									<h4 className='text-sm font-brand'>Search and Add Tags</h4>
+									<div className='flex flex-wrap gap-2 mb-2'>
+										{selectedTags.map((tag) => (
+											<span
+												key={tag}
+												className='bg-gray-200 px-3 py-1 rounded-full text-sm flex items-center gap-2'>
+												{tag}
+												<button
+													type='button'
+													onClick={() => removeTag(tag)}
+													className='text-gray-500 hover:text-gray-700'>
+													×
+												</button>
+											</span>
+										))}
+									</div>
+									<div className='relative'>
+										<input
+											type='text'
+											className='bg-gray-100 font-blog rounded-md w-full p-3 text-sm'
+											placeholder='Search or add tags'
+											value={tagInput}
+											onChange={handleTagInput}
+										/>
+										{tagInput && (
+											<div className='absolute w-full mt-1 bg-white border rounded-md shadow-lg max-h-48 overflow-y-auto z-50'>
+												{filteredTags.map((tag) => (
+													<button
+														key={tag}
+														type='button'
+														className='w-full text-left px-4 py-2 hover:bg-gray-100'
+														onClick={() => addTag(tag)}
+													>
+														{tag}
+													</button>
+												))}
+											</div>
+										)}
+									</div>
+								</div>
+
+								<div className='w-full mt-auto'>
+									<button className='bg-black w-full py-2 text-white rounded-full hover:bg-white hover:text-black  border-black border'
+										type='submit'
+
+									>{publishing ? 'Publishing ...' : 'Publish'}</button>
+								</div>
+							</div>
+						</div>
+					</>
+				}
 			</form>
 			{publishing && <Publishing />}
-			{/* <Publishing /> */}
+
 			<Toaster
 				toastOptions={
 					{ duration: 3000 }

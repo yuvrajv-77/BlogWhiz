@@ -18,11 +18,10 @@ const Header = () => {
   const { setOpenGetStarted, openGetStarted } = useModal();
 
 
-  const dropdownRef = useRef(null);
   const navigate = useNavigate();
 
   const name = user?.displayName || userDetail?.displayName || "A Reader or Author";
-  const profileImage = user?.photoURL || "/avatar.jpg";
+ 
 
   const dropdownItems = [
     {
@@ -44,7 +43,7 @@ const Header = () => {
 
   return (
     <header className="px-5 md:px-36 border-b shadow-xs ">
-      <div className="flex items-center justify-between py-4">
+      <div className="flex items-center justify-between py-2">
         <div>
           <Link to="/">
             <h1 className="text-2xl md:text-4xl font-logo font-bold cursor-pointer">
@@ -69,7 +68,7 @@ const Header = () => {
                   items={dropdownItems}
                   buttonText={<>
                     <img
-                      src={profileImage}
+                      src={user?.photoURL || "/default-avatar.png"}
                       className={`size-8 md:size-10 object-cover rounded-full cursor-pointer`}
                       alt="user profile" />
                     <p className="hidden lg:block font-brand">{name}</p>

@@ -49,13 +49,13 @@ const Dropdown: React.FC<DropdownProps> = ({ items, buttonText }) => {
       </button>
       
       {isOpen && (
-        <div className="absolute mt-2 w-32 border bg-white rounded-lg -right-3 z-10">
-          <ul className="py-1">
+        <div className="absolute mt-2 w-48 border bg-white rounded-lg -right-3 z-10">
+          <ul className="p-3">
             {items.map((item, index) => (
               <li key={index}>
                 <Link
                   to={item.url}
-                  className="block p-3 text-sm md:text-base font-medium font-blog hover:text-gray-500 w-full text-left"
+                  className="block p-3 text-md md:text-base font-medium font-blog hover:text-gray-500 w-full text-left"
                   onClick={() => handleItemClick(item)}
                   style={{ color: item.color }}
                 >
