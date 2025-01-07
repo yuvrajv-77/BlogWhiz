@@ -2,8 +2,6 @@ import { collection, addDoc, getDocs, query, where, doc, getDoc, deleteDoc, upda
 import { db } from '../config/firebaseConfig';
 import { Blog, BlogComment } from './Blog.types';
 
-
-
 export const getBlogsFromFirestore = async () => {
 
   try {
@@ -22,7 +20,8 @@ export const getBlogsFromFirestore = async () => {
         authorImg: doc.data().authorImg,
         likes: doc.data().likes,
         imageUrl: doc.data().imageUrl,
-        comments: doc.data().comments
+        comments: doc.data().comments,
+        tags: doc.data().tags
       }
       // {
       //   id: doc.id, 
@@ -36,6 +35,10 @@ export const getBlogsFromFirestore = async () => {
     console.error('Error getting blogs: ', e);
   }
 }
+
+// export const getBlogByTagFromFirestore = async (tag: string) => {
+//   const blogCollectionRef = collection(db, 'blogs');
+// }
 
 export const addBlogToFirestore = async (blogData: Blog) => {
   try {

@@ -35,9 +35,7 @@ function App(): React.ReactElement {
 						path: "/blog/:id",
 						element: <Blog />
 					},
-					{
-
-					},
+					
 					{
 						element: <ProtectedRoutes />,
 						children: [
