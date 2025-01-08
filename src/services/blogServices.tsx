@@ -35,10 +35,41 @@ export const getBlogsFromFirestore = async () => {
     console.error('Error getting blogs: ', e);
   }
 }
+export const getBlogsByTagsFromFirestore = async (tag: string) => {
 
-// export const getBlogByTagFromFirestore = async (tag: string) => {
-//   const blogCollectionRef = collection(db, 'blogs');
-// }
+  try {
+    const blogCollectionRef = collection(db, 'blogs');
+    const tagQuery = query(blogCollectionRef, where("tags", "array-contains", tag));
+    const querySnapshot = await getDocs(tagQuery);
+    const tagBlogs = querySnapshot.docs.map(doc => (  
+      
+      {
+        id: doc.id,
+        title: doc.data().title,
+        summary: doc.data().summary,
+        body: doc.data().body,
+        userId: doc.data().userId,
+        createdAt: doc.data().createdAt,
+        authorName: doc.data().authorName,
+        authorImg: doc.data().authorImg,
+        likes: doc.data().likes,
+        imageUrl: doc.data().imageUrl,
+        comments: doc.data().comments,
+        tags: doc.data().tags
+      }
+     
+
+    ));
+    
+    
+    return tagBlogs;
+
+  } catch (e) {
+    console.error('Error getting blogs: ', e);
+  }
+}
+
+
 
 export const addBlogToFirestore = async (blogData: Blog) => {
   try {

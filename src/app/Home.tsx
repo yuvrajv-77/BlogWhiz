@@ -10,6 +10,8 @@ import { BiMessageSquareDetail } from 'react-icons/bi'
 import { BsCalendar } from 'react-icons/bs'
 import { useEffect, useState } from 'react'
 import Section2 from '../components/Section2'
+import ButtonPrimary from '../components/ButtonPrimary'
+import { RxPencil2 } from 'react-icons/rx'
 
 
 const Home = () => {
@@ -33,7 +35,7 @@ const Home = () => {
     // }, []);
     const tags: string[] = ['For You', 'Technology', 'Programming', 'Politics',
         'Books', 'Productivity', 'Health', 'Science',
-        'UI/UX', 'Entrepreneurship', 'Business', 'Life',
+         'Entrepreneurship', 'Business', 'Life',
         'Education', "Work", 'Travel', 'Fashion', 'Gaming',
         'Art', 'Music', 'Food', 'Sports', 'Culture', 'Lifestyle']
 
@@ -96,11 +98,26 @@ const Home = () => {
         <main className='px-5 lg:px-0 md:px-4 max-w-[75rem] mx-auto'>
             <div className='flex justify-between select-none gap-9'>
                 <section className='md:max-w-[50rem] overflow-x-auto'>
-                    <div className=' text-xs  md:text-sm text-gray-500 border-b border-gray-300 flex  items-center h-11 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] select-none font-brand '>{
+                    <div className=' sticky top-0 bg-white z-10 text-xs  md:text-sm text-gray-500 border-b border-gray-200 flex  items-center h-11 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] select-none font-brand '>{
                         tags.map(
                             (tag, index) => <span key={index} onClick={() => handleTagClick(tag)} className='mr-5 lg:mr-6 whitespace-nowrap cursor-pointer hover:text-black'>{tag}</span>
                         )}
-                    </div>
+                    </div>          
+
+                    {blogs.length === 0 && !isPending && (
+                        <div className="flex flex-col items-center justify-center py-20 text-center">
+                            <h2 className="text-2xl font-brand font-bold text-gray-800 mb-4">
+                                No blogs found with tag #{tag}
+                            </h2>
+                            <p className="text-gray-500 mb-8 font-blog">
+                                Be the first one to write a blog with this tag!
+                            </p>
+                            <Link to="/admin/form">
+                                <ButtonPrimary> <RxPencil2 size={22}/> Write a blog</ButtonPrimary>
+                            </Link>
+                        </div>
+                    )}
+
                     {isPending ? <Skeleton /> : (
                         blogs.length > 0 && (
                             <Link to={`/blog/${blogs[0]?.id}`}>   {/* 1st blog */}
@@ -172,7 +189,7 @@ const Home = () => {
 
                 </section>
 
-                <Section2 blogs={blogs} />
+                <Section2 handleTagClick={handleTagClick} />
             </div>
         </main >
     )

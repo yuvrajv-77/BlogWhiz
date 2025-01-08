@@ -213,7 +213,7 @@ const Form = () => {
 							value={body}
 							// required = {true}
 							// ref={quillRef}
-							theme='snow'
+							theme='bubble'
 							placeholder='Tell Your Story. . . . .'
 							onChange={(e) => setBody(e)} />
 

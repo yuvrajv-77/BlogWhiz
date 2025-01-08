@@ -51,7 +51,7 @@ const GetStartedModal = () => {
               />
             </span>
             <h1 className="text-center text-4xl font-logo font-bold mb-14">
-              Join OneBlog.
+              Join BlogWhiz.
             </h1>
 
             <button

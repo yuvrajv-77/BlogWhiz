@@ -5,18 +5,17 @@ import useAuth from "../hooks/useAuth";
 import { Link } from "react-router";
 import { useNavigate } from "react-router";
 import ButtonPrimary from "./ButtonPrimary";
-
 import useModal from "../hooks/useModal";
 import toast, { Toaster } from "react-hot-toast";
 import Dropdown from "./Dropdown";
 import { AiOutlineUser } from "react-icons/ai";
 import { IoMdLogOut } from "react-icons/io";
+import { RxPencil2 } from "react-icons/rx";
 
 const Header = () => {
   const { user, userDetail, handleLogout } = useAuth();
 
   const { setOpenGetStarted, openGetStarted } = useModal();
-
 
   const navigate = useNavigate();
 
@@ -47,19 +46,19 @@ const Header = () => {
         <div>
           <Link to="/">
             <h1 className="text-2xl md:text-4xl font-logo font-bold cursor-pointer">
-              OneBlog
+              BlogWhiz
             </h1>
           </Link>
         </div>
         <div>
           <div className="flex gap-9 items-center">
             <button
-              className="text-gray-600 hidden  hover:text-black md:inline-flex items-center gap-1 p-1"
+              className="text-gray-600 hidden  hover:text-black md:inline-flex items-center gap-2 p-1"
               onClick={() =>
                 user ? navigate("/admin/form") : setOpenGetStarted(true)
               }
             >
-              <PiNotePencilLight size={28} />
+              <RxPencil2 size={22}/>
               <p>Write</p>
             </button>
             <>

@@ -1,7 +1,7 @@
 
 import { useParams } from 'react-router';
 import { useContext, useEffect, useState } from 'react';
-import { getBlogById, toggleLike } from '../services/blogServices';
+import { getBlogById, getBlogsByTagsFromFirestore, getBlogsFromFirestore, toggleLike } from '../services/blogServices';
 import { parse } from 'node-html-parser';
 import useAuth from '../hooks/useAuth';
 import { GoHeart, GoHeartFill, GoShare } from 'react-icons/go';
@@ -10,6 +10,9 @@ import toast, { Toaster } from 'react-hot-toast';
 import CommentBox from '../components/CommentBox';
 import { GetStartedContext } from '../contexts/GetStarted';
 import { PiShareFat, PiShareFatLight } from 'react-icons/pi';
+import { useQuery } from '@tanstack/react-query';
+import Gridblog from '../components/Gridblog';
+
 
 const contentInnerHtml: string = '[&_h1]:text-3xl ' +
     ' [&_h1]:font-bold ' +
@@ -26,6 +29,8 @@ const Blog = () => {
     const { id } = useParams<{ id: string }>();
     const { user, userDetail } = useAuth();
     const [blog, setBlog] = useState<any>(null);
+    const [recommendedBlogs, setRecommendedBlogs] = useState<any>([]);
+    const [moreBlogs, setMoreBlogs] = useState<any>([]);
     const [loading, setLoading] = useState(true);
     const [isLiked, setIsLiked] = useState(false);
     const [commentBoxOpen, setCommentBoxOpen] = useState(false)
@@ -53,9 +58,35 @@ const Blog = () => {
             setBlog(data);
             setLoading(false);
         };
-
+       
         fetchBlog();
+        
     }, [id]);
+
+    useEffect(() => {
+        const fetchRecommendedBlogs = async () => {
+            if (blog?.tags && blog.tags.length > 0) {
+                const tag = blog.tags[0]; // Get first tag
+                const recommendedData = await getBlogsByTagsFromFirestore(tag);
+                // Filter out the current blog from recommendations
+                const filteredBlogs = recommendedData?.filter((recBlog: any) => recBlog.id !== id);
+                setRecommendedBlogs(filteredBlogs);
+            }
+        };
+        const fetchmoreBlogs = async () => {
+            const data = await getBlogsFromFirestore();
+            setMoreBlogs(data);
+        };
+
+    
+        if (blog) {
+            fetchRecommendedBlogs();
+            fetchmoreBlogs();
+        }
+    }, [blog, id]);
+    
+
+    console.log("tagblogs: ",recommendedBlogs);
 
     // When blog loads, we check if current user has liked it:
     useEffect(() => {
@@ -114,6 +145,9 @@ const Blog = () => {
         return `${month} ${day}, ${year}`;
     };
 
+ 
+   
+
     if (loading) {
         return (
             <div className='px-7 lg:px-0 md:px-10 lg:max-w-[50rem] mt-7 mx-auto animate-pulse'>
@@ -137,8 +171,9 @@ const Blog = () => {
     }
 
 
+
     return (
-        <div className='px-7 lg:px-0 md:px-10 lg:max-w-[50rem] mt-7 mx-auto '>
+        <div className='px-7 lg:px-0 md:px-10 lg:max-w-[53rem] mt-7 mx-auto '>
             <div className=''>
                 <p className='text-md mb-2 text-gray-500 font-blog antialiased'>{blog?.tags?.map((tag: string) => `#${tag}  `)}</p>
                 <h1 className='text-2xl md:text-4xl lg:text-4xl font-extrabold font-brand tracking-tight md:tracking-normal'>{blog?.title}</h1>
@@ -186,6 +221,28 @@ const Blog = () => {
                 tracking-wide leading-7 md:leading-9   md:tracking-wider font-blog antialiased  md:text-justify text-slate-800 `}>
                     {renderContent()}
                 </p>
+            </div>
+
+             {/* Grid blogs 4 */}
+            <div className='my-10 py-10 border-t'>
+                <h2 className='text-xl md:text-2xl font-bold font-brand mb-4'>You might also like</h2>
+                <div className='grid grid-cols- md:grid-cols-2 gap-y-4 gap-x-6'>
+                    {recommendedBlogs.slice(0, 4).map((blog : any) => (
+                            <Gridblog blog={blog} />
+                    ))}
+
+                </div>
+            </div>
+
+            {/* Recommended Blogs 8  */}
+            <div className='my-10 py-10 border-t'>
+                <h2 className='text-xl md:text-2xl font-bold font-brand mb-4'>Recommended From BlogWhiz</h2>
+                <div className='grid grid-cols- md:grid-cols-2 gap-y-4 gap-x-6'>
+                    {moreBlogs?.slice(3, 9).map((blog : any) => (
+                            <Gridblog blog={blog} />
+                    ))}
+
+                </div>
             </div>
             <Toaster />
 

@@ -12,7 +12,7 @@ const ButtonPrimary: React.FC<ButtonPrimaryProps> = ({ children, onClick, disabl
         <button
             onClick={onClick}
             disabled={disabled}
-            className={` ${className || ''} bg-black py-2 px-3 md:py-2 md:px-4 text-sm md:text-base text-white rounded-full hover:bg-white hover:text-black focus:ring focus:ring-gray-300 border-black border transition duration-100 ease-in-out  ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+            className={` ${className || ''} bg-black py-2 px-3 md:py-2 md:px-4 text-sm md:text- flex items-center gap-3 text-white rounded-full hover:bg-white hover:text-black focus:ring focus:ring-gray-300 border-black border transition duration-100 ease-in-out  ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
         >
             {children}
         </button>

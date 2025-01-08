@@ -11,6 +11,7 @@ import { useEffect } from 'react';
 import { PiNotePencilLight } from 'react-icons/pi';
 import { getRedirectResult } from 'firebase/auth';
 import { auth } from '../config/firebaseConfig';
+import { RxPencil2 } from 'react-icons/rx';
 
 
 
@@ -55,7 +56,7 @@ function LayoutContent() {
       )}
       {showFloatingButton && (
         <Link to={'/admin/form'} onClick={() => { if(!user) setOpenGetStarted(true); }}  className='fixed md:hidden bottom-6 right-6 z-20 size-14 bg-black rounded-full flex items-center justify-center cursor-pointer active:bg-gray-800 transform transition-all active:scale-95 shadow-lg hover:shadow-xl'>
-          <PiNotePencilLight color='white' size={25}/>
+          <RxPencil2  color='white' size={20}/>
         </Link>
       )}
       <Toaster/>

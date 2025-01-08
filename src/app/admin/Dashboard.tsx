@@ -10,6 +10,7 @@ import { useQuery } from '@tanstack/react-query';
 import { FiTrash } from 'react-icons/fi';
 import toast from 'react-hot-toast';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { RxPencil2 } from 'react-icons/rx';
 
 const Dashboard = () => {
 	const { user } = useAuth()
@@ -96,8 +97,8 @@ const Dashboard = () => {
 				<div className='flex items-center justify-between mb-6'>
 					<p className='text-xl font-bold font-brand'>Posts ({data?.length})</p>
 					<Link to={'/admin/form'}>
-						<button className='text-gray-600 hover:text-black inline-flex items-center gap-1 p-1'>
-							<PiNotePencilLight size={28} />
+						<button className='text-gray-600 hover:text-black inline-flex items-center gap-3 p-1'>
+							 <RxPencil2 size={22}/>
 							<p>Write New Blog</p>
 						</button>
 					</Link>
