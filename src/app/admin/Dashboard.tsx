@@ -1,5 +1,4 @@
 import AdminPanel from '../../components/AdminPanel';
-import { PiNotePencilLight } from 'react-icons/pi';
 import { Link } from 'react-router';
 import { deleteBlogFromFirestore, getUserBlogsFromFirestore } from '../../services/blogServices';
 import useAuth from '../../hooks/useAuth';
@@ -61,7 +60,6 @@ const Dashboard = () => {
 		queryFn: () => getUserBlogsFromFirestore(user?.uid as string),
 	})
 
-	console.log("data in dash ", data);
 
 
 	// useEffect(() => {

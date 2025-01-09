@@ -38,7 +38,6 @@ const AdminPanel = () => {
 			setIsUploading(true);
 			setError(null);
 			const downloadUrl = await uploadImage(selectedFile, "user-profile-images");
-			console.log("Upload successful:", downloadUrl);
 		} catch (err) {
 			setError("Failed to upload image. Please try again.");
 			console.error("Upload error:", err);

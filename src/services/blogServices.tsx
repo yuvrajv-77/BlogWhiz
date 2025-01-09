@@ -78,7 +78,7 @@ export const addBlogToFirestore = async (blogData: Blog) => {
       ...blogData
 
     });
-    console.log('Blog added with ID: ', docRef.id);
+    // console.log('Blog added with ID: ', docRef.id);
   } catch (e) {
     console.error('Error adding blog: ', e);
   }

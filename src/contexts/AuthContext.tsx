@@ -10,9 +10,7 @@ import {
     signOut,
     sendPasswordResetEmail,
     confirmPasswordReset,
-    signInWithRedirect,
-    getRedirectResult,
-    getAdditionalUserInfo
+
 } from "firebase/auth";
 import { useEffect, useState, createContext } from "react";
 import { auth, db } from "../config/firebaseConfig";
@@ -189,10 +187,8 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
         }
     }, [user])
 
-
-
-    console.log("User: ", user);
-    console.log("UserDetail: ", userDetail);
+    // console.log("User: ", user);
+    // console.log("UserDetail: ", userDetail);
 
     const value = {
         user,

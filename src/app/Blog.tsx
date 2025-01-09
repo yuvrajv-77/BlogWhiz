@@ -86,7 +86,6 @@ const Blog = () => {
     }, [blog, id]);
     
 
-    console.log("tagblogs: ",recommendedBlogs);
 
     // When blog loads, we check if current user has liked it:
     useEffect(() => {

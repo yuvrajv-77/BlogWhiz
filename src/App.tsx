@@ -12,10 +12,7 @@ import ForgotPassword from './app/forgotPassword/ForgotPassword';
 import NewPassword from './app/forgotPassword/NewPassword';
 import ProtectedRoutes from './components/ProtectedRoutes';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { getRedirectResult } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore';
-import { auth, db } from './config/firebaseConfig';
+import { Analytics } from "@vercel/analytics/react"
 
 
 
@@ -88,6 +85,7 @@ function App(): React.ReactElement {
 					{/* <ReactQueryDevtools initialIsOpen={false} /> */}
 				</QueryClientProvider>
 			</AuthContextProvider>
+			<Analytics />
 		</>
 	)
 }
