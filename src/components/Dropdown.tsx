@@ -40,7 +40,7 @@ const Dropdown: React.FC<DropdownProps> = ({ items, buttonText }) => {
   };
 
   return (
-    <div className="relative inline-block " ref={dropdownRef}>
+    <div className="relative inline-block z-20" ref={dropdownRef}>
       <button
         className="py-2 px-2  flex items-center hover:bg-gray-100  rounded-full gap-3"
         onClick={toggleDropdown}
@@ -49,7 +49,7 @@ const Dropdown: React.FC<DropdownProps> = ({ items, buttonText }) => {
       </button>
       
       {isOpen && (
-        <div className="absolute mt-2 w-48 border bg-white rounded-lg -right-3 z-10">
+        <div className="absolute mt-2 w-48 shadow-lg border border-gray-200 bg-white rounded-lg -right-3 z-10">
           <ul className="p-3">
             {items.map((item, index) => (
               <li key={index}>

@@ -31,7 +31,7 @@ const Section2 = ({  handleTagClick }: { handleTagClick: (tag: string) => void }
     }
 
     return (
-        <section className='hidden sticky top-0 h-screen overflow-y-auto border-l lg:block w-auto py-4 px-8'>
+        <section className='hidden sticky top-0 h-screen overflow-y-auto border-l border-gray-200 lg:block w-auto py-4 px-8'>
             <h3 className='my-4 text-md font-semibold font-brand'>Trending Blogs</h3>
             <div className=' space-y-5'>
                 <Link to={`/blog/${data?.[4]?.id}`} className='flex flex-col gap-3 group cursor-pointer '>

@@ -178,7 +178,7 @@ const Blog = () => {
                 <h1 className='text-2xl md:text-4xl lg:text-4xl font-extrabold font-brand tracking-tight md:tracking-normal'>{blog?.title}</h1>
                 <p className='text-md md:text-xl text-gray-500 tracking-tight mt-4'>{blog?.summary}</p>
 
-                <div className='flex justify-between py-7 items-center border-b'>
+                <div className='flex justify-between py-7 items-center border-b border-gray-200'>
                     <div className='flex items-center gap-4  w-full'>
                         <img src={blog?.authorImg || "/default-avatar.png"} className='size-10 rounded-full object-cover ' alt="" />
                         <span className='flex justify-between flex-col gap-1'>
@@ -223,7 +223,7 @@ const Blog = () => {
             </div>
 
              {/* Grid blogs 4 */}
-            <div className='my-10 py-10 border-t'>
+            <div className='my-10 py-10 border-t border-gray-200'>
                 <h2 className='text-xl md:text-2xl font-bold font-brand mb-4'>You might also like</h2>
                 <div className='grid grid-cols- md:grid-cols-2 gap-y-4 gap-x-6'>
                     {recommendedBlogs.slice(0, 4).map((blog : any) => (
@@ -234,7 +234,7 @@ const Blog = () => {
             </div>
 
             {/* Recommended Blogs 8  */}
-            <div className='my-10 py-10 border-t'>
+            <div className='my-10 py-10 border-t border-gray-200'>
                 <h2 className='text-xl md:text-2xl font-bold font-brand mb-4'>Recommended From BlogWhiz</h2>
                 <div className='grid grid-cols- md:grid-cols-2 gap-y-4 gap-x-6'>
                     {moreBlogs?.slice(3, 9).map((blog : any) => (

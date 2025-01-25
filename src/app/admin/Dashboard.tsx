@@ -102,7 +102,7 @@ const Dashboard = () => {
 					</Link>
 				</div>
 
-				<div className='border-b-2'></div>
+				<div className='border-b border-gray-100'></div>
 				{isError && (
 					<div className="text-red-500 p-4 text-center">
 						{error.message}
@@ -155,7 +155,7 @@ const Dashboard = () => {
 									</div>
 								</div>
 								{/* <div className='border-b border-gray-200'> </div> */}
-								<div className='flex items-center justify-between md:hidden w-full border-b pb-5'>
+								<div className='flex items-center justify-between md:hidden w-full border-b border-gray-200 pb-5'>
 									<div className='flex items-center gap-4'>
 										<img src='/avatar.jpg' className={`size-6 md:size-10 object-cover rounded-full cursor-pointer`} alt="" />
 										<span className='flex justify-between flex-col gap-1'>

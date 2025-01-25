@@ -13,6 +13,7 @@ import NewPassword from './app/forgotPassword/NewPassword';
 import ProtectedRoutes from './components/ProtectedRoutes';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Analytics } from "@vercel/analytics/react"
+import LandingPage from './app/LandingPage';
 
 
 
@@ -26,13 +27,17 @@ function App(): React.ReactElement {
 				children: [
 					{
 						index: true,
+						element: <LandingPage />,
+					},
+					{
+						path: "/feed",
 						element: <Home />,
 					},
 					{
 						path: "/blog/:id",
 						element: <Blog />
 					},
-					
+
 					{
 						element: <ProtectedRoutes />,
 						children: [
@@ -82,6 +87,7 @@ function App(): React.ReactElement {
 			<AuthContextProvider>
 				<QueryClientProvider client={queryClient}>
 					<RouterProvider router={router} />
+					
 					{/* <ReactQueryDevtools initialIsOpen={false} /> */}
 				</QueryClientProvider>
 			</AuthContextProvider>

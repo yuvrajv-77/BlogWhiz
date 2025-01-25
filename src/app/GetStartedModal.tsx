@@ -32,7 +32,7 @@ const GetStartedModal = () => {
   useEffect(() => {
     if (user) {
       setOpenGetStarted(false);
-      navigate("/");
+      navigate("/feed");
     }
   }, [user, navigate]);
   

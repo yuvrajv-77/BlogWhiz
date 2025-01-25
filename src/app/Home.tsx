@@ -13,11 +13,13 @@ import ButtonPrimary from '../components/ButtonPrimary'
 import { RxPencil2 } from 'react-icons/rx'
 
 
+
 const Home = () => {
 
+    
     const [blogs, setBlogs] = useState<Blog[]>([]);
     // const [loading, setLoading] = useState(true);
-
+    
     // useEffect(() => {
     //   const fetchBlogs = async () => {
     //     setLoading(true);
@@ -32,6 +34,7 @@ const Home = () => {
 
     //   fetchBlogs();
     // }, []);
+
     const tags: string[] = ['For You', 'Technology', 'Programming', 'Politics',
         'Books', 'Productivity', 'Health', 'Science',
          'Entrepreneurship', 'Business', 'Life',
@@ -79,18 +82,15 @@ const Home = () => {
         )
     }
 
-
     const navigate = useNavigate();
-
 
     const handleTagClick = (tag: string) => {
         if (tag === 'For You') {
-            navigate('/');
+            navigate('/feed');
         } else {
-            navigate(`/?tag=${tag}`);
+            navigate(`/feed?tag=${tag}`);
         }
     }
-
 
 
     return (
@@ -152,7 +152,7 @@ const Home = () => {
                                     </div>
 
                                 </div>
-                                <div className='flex items-center justify-between md:hidden w-full border-b pb-5'>
+                                <div className='flex items-center justify-between md:hidden w-full border-b border-gray-200 pb-5'>
                                     <div className='flex items-center gap-4'>
                                         <img src='/avatar.jpg' className={`size-6 md:size-10 object-cover rounded-full cursor-pointer`} alt="" />
                                         <span className='flex justify-between flex-col gap-1'>
